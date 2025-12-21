@@ -12,57 +12,85 @@ OneButton btnRight(PIN_BTN_RIGHT, true);
 OneButton btnOk(PIN_BTN_OK, true);
 OneButton btnBack(PIN_BTN_BACK, true);
 
-void sendButtonEvent(ButtonID btnId, EventType type) {
+void sendStateEvent(ButtonID btnId, bool isDown) {
     AppEvent e;
-    e.type = type;
+    e.type = isDown ? EVENT_BUTTON_DOWN : EVENT_BUTTON_UP;
     e.value = btnId;
-    xQueueSend(eventQueue, &e, 0); // 0 = ne pas attendre si la queue est pleine
+    xQueueSend(eventQueue, &e, 0);
 }
 
-// Callbacks (fonctions appelées quand on clique)
-// Note: On doit faire des fonctions statiques ou globales pour OneButton
-void clickUp() { sendButtonEvent(BTN_UP, EVENT_BUTTON_PRESS); }
-void clickDown() { sendButtonEvent(BTN_DOWN, EVENT_BUTTON_PRESS); }
-void clickLeft() { sendButtonEvent(BTN_LEFT, EVENT_BUTTON_PRESS); }
-void clickRight() { sendButtonEvent(BTN_RIGHT, EVENT_BUTTON_PRESS); }
-void clickOk() { sendButtonEvent(BTN_OK, EVENT_BUTTON_PRESS); }
-void clickBack() { sendButtonEvent(BTN_BACK, EVENT_BUTTON_PRESS); }
+void clickUp() {
+    AppEvent e = {EVENT_BUTTON_CLICK, BTN_UP};
+    xQueueSend(eventQueue, &e, 0);
+}
 
-void longClickUp() { sendButtonEvent(BTN_UP, EVENT_BUTTON_LONG); }
-void longClickDown() { sendButtonEvent(BTN_DOWN, EVENT_BUTTON_LONG); }
-void longClickLeft() { sendButtonEvent(BTN_LEFT, EVENT_BUTTON_LONG); }
-void longClickRight() { sendButtonEvent(BTN_RIGHT, EVENT_BUTTON_LONG); }
-void longClickOk() { sendButtonEvent(BTN_OK, EVENT_BUTTON_LONG); }
-void longClickBack() { sendButtonEvent(BTN_BACK, EVENT_BUTTON_LONG); }
+// void downUp() {
+//     sendStateEvent(BTN_UP, true);
+// }
 
+// void upUp() {
+//     sendStateEvent(BTN_UP, false);
+// }
+
+void clickDown() {
+    AppEvent e = {EVENT_BUTTON_CLICK, BTN_DOWN};
+    xQueueSend(eventQueue, &e, 0);
+}
+
+void clickLeft() {
+    AppEvent e = {EVENT_BUTTON_CLICK, BTN_LEFT};
+    xQueueSend(eventQueue, &e, 0);
+}
+
+void clickRight() {
+    AppEvent e = {EVENT_BUTTON_CLICK, BTN_RIGHT};
+    xQueueSend(eventQueue, &e, 0);
+}
+
+void clickOk() {
+    AppEvent e = {EVENT_BUTTON_CLICK, BTN_OK};
+    xQueueSend(eventQueue, &e, 0);
+}
+
+void clickBack() {
+    AppEvent e = {EVENT_BUTTON_CLICK, BTN_BACK};
+    xQueueSend(eventQueue, &e, 0);
+}
 
 void taskInput(void *pvParameters) {
-    // Attachement des fonctions aux boutons
     btnUp.attachClick(clickUp);
+    // btnUp.attachPress(downUp);
+    // btnUp.attachIdle(upUp);
+
     btnDown.attachClick(clickDown);
     btnLeft.attachClick(clickLeft);
     btnRight.attachClick(clickRight);
     btnOk.attachClick(clickOk);
     btnBack.attachClick(clickBack);
 
-    btnUp.attachLongPressStart(longClickUp);
-    btnDown.attachLongPressStart(longClickDown);
-    btnLeft.attachLongPressStart(longClickLeft);
-    btnRight.attachLongPressStart(longClickRight);
-    btnOk.attachLongPressStart(longClickOk);
-    btnBack.attachLongPressStart(longClickBack);
-    
+
+    bool lastState[6] = {false};
+    int pins[6] = {PIN_BTN_UP, PIN_BTN_DOWN, PIN_BTN_LEFT, PIN_BTN_RIGHT, PIN_BTN_OK, PIN_BTN_BACK};
 
     while (true) {
-        // Il faut appeler tick() très souvent pour détecter les clics
         btnUp.tick();
         btnDown.tick();
         btnLeft.tick();
         btnRight.tick();
         btnOk.tick();
         btnBack.tick();
-        
-        // On dort 10ms pour laisser respirer le CPU (polling rate 100Hz)
+
+        for(int i = 0; i < 6; i++) {
+            bool currentState = !digitalRead(pins[i]); // Active LOW
+            if (currentState != lastState[i]) {
+                lastState[i] = currentState;
+                
+                AppEvent e;
+                e.type = currentState ? EVENT_BUTTON_DOWN : EVENT_BUTTON_UP;
+                e.value = i;
+                xQueueSend(eventQueue, &e, 0);
+            }
+        }
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }

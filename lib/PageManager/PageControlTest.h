@@ -1,7 +1,7 @@
 #pragma once
-#include "../lib/PageManager/Page.h" // Chemin relatif à adapter selon ta structure
+#include "Page.h"
 #include "PinDefinitions.h"
-#include "Assets.h" // Tes images XBM
+#include "Assets.h"
 
 class PageControlTest : public IPage {
     public:

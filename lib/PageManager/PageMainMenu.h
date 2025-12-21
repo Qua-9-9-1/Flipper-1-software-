@@ -1,0 +1,29 @@
+#include <vector>
+#include "Page.h"
+#include "PageManager.h"
+#include "AppEvents.h"
+#include "Assets.h"
+
+#define COLS 4
+#define ROWS 2
+
+class PageMainMenu : public IPage {
+    public:
+        PageMainMenu();
+        ~PageMainMenu();
+        void onEvent(AppEvent *event) override;
+        void draw(U8G2 *u8g2) override;
+        void onEnter() override {}
+        void addIcon(int icon, IPage* linkedPage);
+    private:
+        int pos[2];
+        std::vector<std::pair<int, IPage*>> linkedPages;
+        const unsigned char* icons[6] = {
+            icon_ghz,
+            icon_nfc_rfid,
+            icon_ir,
+            icon_usb,
+            icon_settings,
+            icon_poweroff
+        };
+};

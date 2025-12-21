@@ -4,8 +4,9 @@
 enum EventType {
     EVENT_RADIO,
     EVENT_NFC,
-    EVENT_BUTTON_PRESS,
-    EVENT_BUTTON_LONG
+    EVENT_BUTTON_CLICK,
+    EVENT_BUTTON_DOWN,
+    EVENT_BUTTON_UP
 };
 
 enum ButtonID {

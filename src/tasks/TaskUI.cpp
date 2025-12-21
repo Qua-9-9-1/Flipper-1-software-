@@ -3,32 +3,86 @@
 #include "AppEvents.h"
 #include "PinDefinitions.h"
 #include "PageControlTest.h"
+#include "PageMainMenu.h"
+#include "PageList.h"
+#include "PageBoot.h"
 #include "Page.h"
 
 extern QueueHandle_t eventQueue;
 
+PageMainMenu mainMenu;
+PageList subGhzMenu("Sub-GHz");
+PageList nfcMenu("NFC / RFID");
+PageList IR("IR");
+PageList badUSB("USB Port");
+PageList settings("Settings");
+
+PageBoot bootPage;
+PageControlTest controlTestPage;
+
+void setupMenus() {
+    subGhzMenu.addItem("Read / Sniff", nullptr);
+    subGhzMenu.addItem("Saved", nullptr);
+    subGhzMenu.addItem("Add Manually", nullptr);
+
+    nfcMenu.addItem("Read Card", nullptr);
+    nfcMenu.addItem("Emulate", nullptr);
+
+    IR.addItem("Universal Remote", nullptr);
+    IR.addItem("Capture Signal", nullptr);
+    IR.addItem("Saved Signals", nullptr);
+
+    badUSB.addItem("Payloads", nullptr);
+    badUSB.addItem("Create Payload", nullptr);
+
+    settings.addItem("Display", nullptr);
+    settings.addItem("Sound", nullptr);
+    settings.addItem("System Info", nullptr);
+    settings.addItem("About", nullptr);
+    settings.addItem("Controls Test", &controlTestPage);
+
+    mainMenu.addIcon(ICON_RADIO, &subGhzMenu);
+    mainMenu.addIcon(ICON_NFC, &nfcMenu);
+    mainMenu.addIcon(ICON_IR, &IR);
+    mainMenu.addIcon(ICON_USB, &badUSB);
+    mainMenu.addIcon(ICON_SETTINGS, &settings);
+}
+
 void taskUI(void *pvParameters) {
     DisplayDriver display(PIN_OLED_SDA, PIN_OLED_SCL);
+    IPage* currentPage = nullptr;
     display.init();
-    // display.showBootScreen();
-    
-    // vTaskDelay(1000 / portTICK_PERIOD_MS);
+    setupMenus();
 
-    // Instanciation des pages
-    PageControlTest pageControls;
-    // PageMenu pageMenu; 
-    
-    IPage* currentPage = &pageControls;
-    currentPage->onEnter();
+    PageManager::getInstance()->pushPage(&bootPage);
+    PageManager::getInstance()->pushPage(&mainMenu);
 
     AppEvent e;
-
+    
     while (true) {
-        if (xQueueReceive(eventQueue, &e, 0)) { // 0 for non blocking event
-             currentPage->onEvent(&e);             
+        currentPage = PageManager::getInstance()->getCurrentPage();
+        if (xQueueReceive(eventQueue, &e, 0)) { 
+             if (currentPage) {
+                 currentPage->onEvent(&e);
+             }
         }
 
-        currentPage->draw(display.getU8g2());       
+        if (PageManager::getInstance()->getCurrentPage() == &bootPage) {
+            // TODO : manage boot in bootPage class switch
+            static long startBoot = millis();
+            if (millis() - startBoot > 3000) {
+                PageManager::getInstance()->switchPage(&mainMenu);
+            }
+        }
+
+        if (currentPage) {
+            currentPage->draw(display.getU8g2());
+        } else {
+            display.getU8g2()->clearBuffer();
+            display.getU8g2()->drawStr(0, 10, "NO PAGE");
+            display.getU8g2()->sendBuffer();
+        }
+        
         vTaskDelay(30 / portTICK_PERIOD_MS);
     }
 }

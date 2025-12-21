@@ -7,35 +7,33 @@ void PageControlTest::onEnter() {
 }
 
 void PageControlTest::onEvent(AppEvent *event) {
-    if (event->type == EVENT_BUTTON_PRESS) {
-        checkKonami( (ButtonID)event->value );
-        
+    if (event->type == EVENT_BUTTON_DOWN) {
         switch(event->value) {
-            case BTN_UP:
-                isUpPressed = true;
-                break;
-            case BTN_DOWN:
-                isDownPressed = true;
-                break;
-            case BTN_LEFT:
-                isLeftPressed = true;
-                break;
-            case BTN_RIGHT:
-                isRightPressed = true;
-                break;
-            case BTN_OK:
-                isOkPressed = true;
-                break;
-            case BTN_BACK:
-                isBackPressed = true;
-                break;
-            default:
-                break;
+            case BTN_UP: isUpPressed = true; break;
+            case BTN_OK: isOkPressed = true; break;
+            case BTN_DOWN: isDownPressed = true; break;
+            case BTN_LEFT: isLeftPressed = true; break;
+            case BTN_RIGHT: isRightPressed = true; break;
+            case BTN_BACK: isBackPressed = true; break;
         }
+    } else if (event->type == EVENT_BUTTON_UP) {
+        switch(event->value) {
+            case BTN_UP: isUpPressed = false; break;
+            case BTN_OK: isOkPressed = false; break;
+            case BTN_DOWN: isDownPressed = false; break;
+            case BTN_LEFT: isLeftPressed = false; break;
+            case BTN_RIGHT: isRightPressed = false; break;
+            case BTN_BACK: isBackPressed = false; break;
+        }
+    }
+
+    if (event->type == EVENT_BUTTON_CLICK) {
+        checkKonami((ButtonID)event->value);
     }
 }
 
 void PageControlTest::checkKonami(ButtonID input) {
+    Serial.print("Button check: "); Serial.println(input);
     if (input == konamiSequence[konamiIndex]) {
         konamiIndex++;
         Serial.print("Konami progress: "); Serial.println(konamiIndex);
@@ -67,11 +65,4 @@ void PageControlTest::draw(U8G2 *u8g2) {
     u8g2->print("/10");
     
     u8g2->sendBuffer();
-    
-    isUpPressed = false; 
-    isDownPressed = false;
-    isLeftPressed = false;
-    isRightPressed = false;
-    isOkPressed = false;
-    isBackPressed = false;
 }
