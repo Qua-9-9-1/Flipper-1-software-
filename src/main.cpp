@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "AppEvents.h"
 #include "tasks/TaskUI.h"
+#include "tasks/TaskInput.h"
 
 QueueHandle_t eventQueue;
 
@@ -17,6 +18,7 @@ void setup() {
     eventQueue = xQueueCreate(10, sizeof(AppEvent));
 
     xTaskCreate(taskUI, "UITask", 4096, NULL, 1, NULL);
+    xTaskCreate(taskInput, "InputTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
 }
 
