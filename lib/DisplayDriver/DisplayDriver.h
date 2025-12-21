@@ -8,6 +8,7 @@ public:
     void init();
     void showBootScreen();
     void updateStatus(int dataType, int dataValue);
+    U8G2_SSD1306_128X64_NONAME_F_HW_I2C* getU8g2();
     
 private:
     uint8_t _sda;

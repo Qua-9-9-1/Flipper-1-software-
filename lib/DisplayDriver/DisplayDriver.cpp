@@ -29,3 +29,7 @@ void DisplayDriver::updateStatus(int dataType, int dataValue) {
     
     _u8g2->sendBuffer();
 }
+
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C* DisplayDriver::getU8g2() {
+    return _u8g2;
+}
