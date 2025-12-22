@@ -16,7 +16,7 @@ void PageList::onEvent(AppEvent *event) {
                 selectedIndex = abs(selectedIndex + 1); 
                 break;
             case BTN_OK:
-                if(items[selectedIndex].targetPage) {
+                if (items[selectedIndex].targetPage) {
                     PageManager::getInstance()->pushPage(items[selectedIndex].targetPage);
                 }
                 break;

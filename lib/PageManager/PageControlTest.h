@@ -2,6 +2,7 @@
 #include "Page.h"
 #include "PinDefinitions.h"
 #include "Assets.h"
+#include "PageManager.h"
 
 class PageControlTest : public IPage {
     public:

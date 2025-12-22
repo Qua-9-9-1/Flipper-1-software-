@@ -33,16 +33,10 @@ void PageControlTest::onEvent(AppEvent *event) {
 }
 
 void PageControlTest::checkKonami(ButtonID input) {
-    Serial.print("Button check: "); Serial.println(input);
     if (input == konamiSequence[konamiIndex]) {
-        konamiIndex++;
-        Serial.print("Konami progress: "); Serial.println(konamiIndex);
-        
+        konamiIndex++;        
         if (konamiIndex == 10) {
-            Serial.println("KONAMI CODE ACTIVATED! EXITING...");
-            // TODO: Back to previous page
-            // ex: PageManager::getInstance()->changePage(PAGE_MENU);
-            konamiIndex = 0; 
+            PageManager::getInstance()->popPage();
         }
     } else {
         konamiIndex = 0;
