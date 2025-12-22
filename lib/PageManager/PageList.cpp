@@ -9,11 +9,11 @@ void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex) {
 void PageList::onEvent(AppEvent *event) {
     if (event->type == EVENT_BUTTON_CLICK) {
         switch(event->value) {
-            case BTN_UP: 
-                selectedIndex = abs(selectedIndex - 1); 
+            case BTN_UP:
+                selectedIndex--; 
                 break;
-            case BTN_DOWN: 
-                selectedIndex = abs(selectedIndex + 1); 
+            case BTN_DOWN:
+                selectedIndex++;
                 break;
             case BTN_OK:
                 if (items[selectedIndex].targetPage) {
@@ -24,7 +24,7 @@ void PageList::onEvent(AppEvent *event) {
                 PageManager::getInstance()->popPage();
                 break;
         }
-        selectedIndex %= items.size();
+        normalizeCursor();
     }
 }
 
@@ -57,4 +57,12 @@ void PageList::drawIcon(U8G2 *u8g2, uint8_t iconIndex) {
 
     icon_list_t icon = ListIcons[iconIndex];
     u8g2->drawXBMP(128 - icon.width - 2, 14, icon.width, icon.height, icon.bitmap);
+}
+
+void PageList::normalizeCursor() {
+    if (selectedIndex < 0) {
+        selectedIndex = items.size() - 1;
+    } else if (selectedIndex >= items.size()) {
+        selectedIndex = 0;
+    }
 }

@@ -16,10 +16,10 @@ void PageMainMenu::onEvent(AppEvent *event) {
 
     if (event->type == EVENT_BUTTON_CLICK) {
         switch (event->value) {
-            case BTN_UP:    { pos[1] = abs(pos[1] - 1); break; }
-            case BTN_DOWN:  { pos[1] = abs(pos[1] + 1); break; }
-            case BTN_LEFT:  { pos[0] = abs(pos[0] - 1); break; }
-            case BTN_RIGHT: { pos[0] = abs(pos[0] + 1); break; }
+            case BTN_UP:    pos[1]--; break;
+            case BTN_DOWN:  pos[1]++; break;
+            case BTN_LEFT:  pos[0]--; break;
+            case BTN_RIGHT: pos[0]++; break;
             case BTN_OK: {
                 index = (pos[1] * COLS) + pos[0];
                 if (index >= 0 && index < (int)linkedPages.size()) {
@@ -33,8 +33,7 @@ void PageMainMenu::onEvent(AppEvent *event) {
                 break;
             }
         }
-        pos[0] %= COLS;
-        pos[1] %= ROWS;
+        normalizePos();
     }
 }
 
@@ -60,4 +59,16 @@ void PageMainMenu::addIcon(int icon, IPage* linkedPage) {
         return;
     }
     linkedPages.push_back(std::make_pair(icon, linkedPage));
+}
+
+void PageMainMenu::normalizePos() {
+    int maxIndex = linkedPages.size() - 1;
+    int maxRow = maxIndex / COLS;
+    int maxCol = maxIndex % COLS;
+
+    if (pos[0] < 0) pos[0] = COLS - 1;
+    if (pos[0] >= COLS) pos[0] = 0;
+    if (pos[1] < 0) pos[1] = maxRow;
+    if (pos[1] > maxRow) pos[1] = 0;
+    if (pos[1] == maxRow && pos[0] > maxCol) pos[0] = maxCol;
 }

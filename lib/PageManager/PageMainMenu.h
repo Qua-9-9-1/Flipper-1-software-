@@ -16,6 +16,8 @@ class PageMainMenu : public IPage {
         void onEnter() override {}
         void addIcon(int icon, IPage* linkedPage);
     private:
+        void normalizePos();
+
         int pos[2];
         std::vector<std::pair<int, IPage*>> linkedPages;
         const unsigned char* icons[6] = {

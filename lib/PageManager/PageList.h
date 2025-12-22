@@ -29,6 +29,7 @@ class PageList : public IPage {
         void draw(U8G2 *u8g2) override;
         void onEnter() override {}
     private:
+        void normalizeCursor();
         void drawIcon(U8G2 *u8g2, uint8_t iconIndex);
 
         const char* title;
