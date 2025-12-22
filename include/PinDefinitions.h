@@ -11,3 +11,11 @@
 #define PIN_BTN_RIGHT 13
 #define PIN_BTN_OK    14
 #define PIN_BTN_BACK  21
+
+// Buzzer
+#define PIN_BUZZER    42
+
+// RGB LED
+#define PIN_R_LED    4
+#define PIN_G_LED    5
+#define PIN_B_LED    6
