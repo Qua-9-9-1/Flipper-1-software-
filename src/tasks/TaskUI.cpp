@@ -1,12 +1,4 @@
 #include "TaskUI.h"
-#include "DisplayDriver.h"
-#include "AppEvents.h"
-#include "PinDefinitions.h"
-#include "PageControlTest.h"
-#include "PageMainMenu.h"
-#include "PageList.h"
-#include "PageBoot.h"
-#include "Page.h"
 
 extern QueueHandle_t eventQueue;
 
