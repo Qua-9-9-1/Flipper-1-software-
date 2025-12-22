@@ -14,7 +14,7 @@ PageMainMenu mainMenu;
 PageList subGhzMenu("Sub-GHz");
 PageList nfcMenu("NFC / RFID");
 PageList IR("IR");
-PageList badUSB("USB Port");
+PageList badUSB("System / BadUSB");
 PageList settings("Settings");
 
 PageBoot bootPage;
@@ -32,8 +32,11 @@ void setupMenus() {
     IR.addItem("Capture Signal", nullptr);
     IR.addItem("Saved Signals", nullptr);
 
-    badUSB.addItem("Payloads", nullptr);
-    badUSB.addItem("Create Payload", nullptr);
+    badUSB.addItem("Windows", nullptr, 0);
+    badUSB.addItem("macOS", nullptr, 1);
+    badUSB.addItem("Linux", nullptr);
+    // badUSB.addItem("Payloads", nullptr);
+    // badUSB.addItem("Create Payload", nullptr);
 
     settings.addItem("Display", nullptr);
     settings.addItem("Sound", nullptr);
