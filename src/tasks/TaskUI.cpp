@@ -58,6 +58,7 @@ void taskUI(void *pvParameters) {
     setupMenus();
 
     PageManager::getInstance()->pushPage(&bootPage);
+    // TODO : remove this line when boot page is complete
     PageManager::getInstance()->pushPage(&mainMenu);
 
     AppEvent e;
