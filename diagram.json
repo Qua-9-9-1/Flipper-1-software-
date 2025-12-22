@@ -54,20 +54,14 @@
       "attrs": { "color": "green", "xray": "", "key": "ArrowDown", "bounce": "1" }
     },
     {
-      "type": "wokwi-rgb-led",
-      "id": "rgb1",
-      "top": 205.6,
-      "left": -75.7,
-      "attrs": { "common": "anode" }
-    },
-    {
       "type": "wokwi-buzzer",
       "id": "bz1",
       "top": 50.4,
       "left": 155.4,
       "attrs": { "volume": "0.1" }
     },
-    { "type": "wokwi-microsd-card", "id": "sd1", "top": -124.57, "left": 153.67, "attrs": {} }
+    { "type": "wokwi-microsd-card", "id": "sd1", "top": -124.57, "left": 153.67, "attrs": {} },
+    { "type": "wokwi-neopixel", "id": "rgb2", "top": 236.5, "left": -77.8, "attrs": {} }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
@@ -88,12 +82,11 @@
     [ "btnRight:1.l", "esp:13", "orange", [ "v0" ] ],
     [ "btnOk:1.l", "esp:14", "blue", [ "v0" ] ],
     [ "btnBack:1.l", "esp:21", "red", [ "v0" ] ],
-    [ "esp:GND.1", "rgb1:COM", "black", [ "h-115.25", "v77.2" ] ],
-    [ "rgb1:R", "esp:4", "red", [ "v-240", "h96" ] ],
-    [ "rgb1:G", "esp:5", "green", [ "h0" ] ],
-    [ "rgb1:B", "esp:6", "blue", [ "v0" ] ],
     [ "esp:GND.4", "bz1:1", "black", [ "h0" ] ],
-    [ "bz1:2", "esp:42", "red", [ "h38", "v-86.4", "h-124.8" ] ]
+    [ "bz1:2", "esp:42", "red", [ "h38", "v-86.4", "h-124.8" ] ],
+    [ "esp:GND.1", "rgb2:VSS", "black", [ "h-76.85", "v68.1" ] ],
+    [ "esp:5V", "rgb2:VDD", "orange", [ "h0" ] ],
+    [ "rgb2:DIN", "esp:18", "green", [ "h18.4", "v-163.2" ] ]
   ],
   "dependencies": {}
 }
