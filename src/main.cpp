@@ -2,16 +2,9 @@
 #include "AppEvents.h"
 #include "tasks/TaskUI.h"
 #include "tasks/TaskInput.h"
+#include "tasks/TaskRadio.h"
 
 QueueHandle_t eventQueue;
-
-void taskDummyRadio(void *pvParameters) {
-    while(true) {
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
-        AppEvent e = {EVENT_RADIO, (int)random(100)};
-        xQueueSend(eventQueue, &e, portMAX_DELAY);
-    }
-}
 
 void setup() {
     Serial.begin(115200);
