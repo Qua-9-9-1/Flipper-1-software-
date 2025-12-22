@@ -21,14 +21,6 @@ void clickUp() {
     xQueueSend(eventQueue, &e, 0);
 }
 
-// void downUp() {
-//     sendStateEvent(BTN_UP, true);
-// }
-
-// void upUp() {
-//     sendStateEvent(BTN_UP, false);
-// }
-
 void clickDown() {
     AppEvent e = {EVENT_BUTTON_CLICK, BTN_DOWN};
     xQueueSend(eventQueue, &e, 0);
@@ -56,9 +48,6 @@ void clickBack() {
 
 void taskInput(void *pvParameters) {
     btnUp.attachClick(clickUp);
-    // btnUp.attachPress(downUp);
-    // btnUp.attachIdle(upUp);
-
     btnDown.attachClick(clickDown);
     btnLeft.attachClick(clickLeft);
     btnRight.attachClick(clickRight);
