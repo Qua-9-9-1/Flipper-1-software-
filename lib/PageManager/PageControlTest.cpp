@@ -1,7 +1,5 @@
 #include "PageControlTest.h"
 
-PageControlTest::PageControlTest() {}
-
 void PageControlTest::onEnter() {
     konamiIndex = 0;
 }

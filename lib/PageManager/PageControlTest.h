@@ -6,7 +6,7 @@
 
 class PageControlTest : public IPage {
     public:
-        PageControlTest();
+        PageControlTest() {};
         void onEnter() override;
         void onEvent(AppEvent *event) override;
         void checkKonami(ButtonID input);

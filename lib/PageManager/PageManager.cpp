@@ -1,7 +1,5 @@
 #include "PageManager.h"
 
-PageManager::PageManager() {}
-
 PageManager* PageManager::getInstance() {
     if (!instance) instance = new PageManager();
     return instance;

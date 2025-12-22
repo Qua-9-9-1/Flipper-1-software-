@@ -4,7 +4,7 @@
 
 class PageManager {    
     public:
-        PageManager();
+        PageManager() {};
         static PageManager* getInstance();
         void pushPage(IPage* page);
         void popPage();
