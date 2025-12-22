@@ -10,24 +10,25 @@ void DisplayDriver::init() {
     _u8g2->setFont(u8g2_font_ncenB08_tr);
 }
 
-void DisplayDriver::showBootScreen() {
-    _u8g2->clearBuffer();
-    _u8g2->drawStr(10, 30, "FLIPPER -1");
-    _u8g2->drawStr(20, 50, "Booting...");
-    _u8g2->sendBuffer();
-}
+void DisplayDriver::showError(ErrorCode code) {
+    const char * errorType;
 
-void DisplayDriver::updateStatus(int dataType, int dataValue) {
+    switch (code) {
+    case NO_PAGE:
+        errorType = "No page";
+        break;
+    case CRASH:
+        errorType = "Crash";
+        break;
+    default:
+        errorType = "Uknown";
+        break;
+    }
     _u8g2->clearBuffer();
-    _u8g2->drawStr(0, 10, "Running...");
-    
-    _u8g2->setCursor(0, 30);
-    _u8g2->print("Type: "); _u8g2->print(dataType);
-    
-    _u8g2->setCursor(0, 50);
-    _u8g2->print("Val: "); _u8g2->print(dataValue);
-    
+    _u8g2->drawStr(0, 10, "ERROR !");
+    _u8g2->drawStr(0, 30, errorType);
     _u8g2->sendBuffer();
+    // TODO : reboot or poweroff option
 }
 
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C* DisplayDriver::getU8g2() {

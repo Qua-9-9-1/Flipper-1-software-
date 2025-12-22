@@ -82,9 +82,7 @@ void taskUI(void *pvParameters) {
         if (currentPage) {
             currentPage->draw(display.getU8g2());
         } else {
-            display.getU8g2()->clearBuffer();
-            display.getU8g2()->drawStr(0, 10, "NO PAGE");
-            display.getU8g2()->sendBuffer();
+            display.showError(NO_PAGE);
         }
         
         vTaskDelay(30 / portTICK_PERIOD_MS);
