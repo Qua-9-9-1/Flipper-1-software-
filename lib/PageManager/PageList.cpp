@@ -29,8 +29,6 @@ void PageList::onEvent(AppEvent *event) {
 }
 
 void PageList::draw(U8G2 *u8g2) {
-    int yStart = 24;
-
     u8g2->clearBuffer();
     
     u8g2->setDrawColor(1);
@@ -43,8 +41,9 @@ void PageList::draw(U8G2 *u8g2) {
     
     for (int i = 0; i < items.size(); i++) {
         // TODO : handle scrolling
-        if(i == selectedIndex) u8g2->drawStr(0, yStart + (i * 12), ">");
-        u8g2->drawStr(10, yStart + (i * 12), items[i].title);
+        if (i == selectedIndex)
+            u8g2->drawStr(0, YSTART + (i * 12), ">");
+        u8g2->drawStr(10, YSTART + (i * 12), items[i].title);
         drawIcon(u8g2, items[selectedIndex].iconIndex);
     }
 

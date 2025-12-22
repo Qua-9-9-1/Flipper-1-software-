@@ -3,6 +3,8 @@
 #include "PageManager.h"
 #include "Assets.h"
 
+#define YSTART 24
+
 struct ListItem {
     const char* title;
     IPage* targetPage;
