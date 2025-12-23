@@ -4,10 +4,9 @@
 #include "AppEvents.h"
 #include "PinDefinitions.h"
 #include "settings/PageControlTest.h"
-#include "PageMainMenu.h"
 #include "utils/PageList.h"
-#include "PageBoot.h"
 #include "Page.h"
+#include "PageRegistry.h"
 
 enum PageState {
     PAGE_MENU,
