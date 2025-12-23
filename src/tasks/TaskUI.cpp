@@ -46,6 +46,7 @@ void setupMenus() {
 void taskUI(void *pvParameters) {
     DisplayDriver display(PIN_OLED_SDA, PIN_OLED_SCL);
     IPage* currentPage = nullptr;
+    bool needRedraw = true;
     display.init();
     setupMenus();
 
@@ -60,6 +61,7 @@ void taskUI(void *pvParameters) {
         if (xQueueReceive(eventQueue, &e, 0)) { 
              if (currentPage) {
                  currentPage->onEvent(&e);
+                 needRedraw = true;
              }
         }
 
@@ -71,12 +73,14 @@ void taskUI(void *pvParameters) {
             }
         }
 
-        if (currentPage) {
-            currentPage->draw(display.getU8g2());
-        } else {
-            display.showError(NO_PAGE);
+        if (needRedraw) {
+            if (currentPage) {
+                currentPage->draw(display.getU8g2());
+            } else {
+                display.showError(NO_PAGE);
+            }
+            needRedraw = false;
         }
-        
         vTaskDelay(30 / portTICK_PERIOD_MS);
     }
 }
