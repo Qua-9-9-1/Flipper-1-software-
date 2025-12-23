@@ -4,7 +4,7 @@
 #include "AppEvents.h"
 #include "PinDefinitions.h"
 #include "settings/PageControlTest.h"
-#include "utils/PageList.h"
+#include "PageList.h"
 #include "Page.h"
 #include "PageRegistry.h"
 

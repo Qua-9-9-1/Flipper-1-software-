@@ -1,7 +1,7 @@
 #pragma once
-#include "PageMainMenu.h"
-#include "utils/PageList.h"
-#include "PageBoot.h"
+#include "core/PageMainMenu.h"
+#include "core/PageBoot.h"
+#include "PageList.h"
 #include "settings/PageControlTest.h"
 #include "AppEvents.h"
 

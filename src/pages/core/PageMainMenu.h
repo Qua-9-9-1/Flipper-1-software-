@@ -3,7 +3,7 @@
 #include "PageManager.h"
 #include "AppEvents.h"
 #include "Assets.h"
-#include "helpers/LedHelper.h"
+#include "LedHelper.h"
 
 #define COLS 4
 #define ROWS 2
