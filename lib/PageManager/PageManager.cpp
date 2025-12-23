@@ -1,32 +1,32 @@
 #include "PageManager.h"
 
 PageManager* PageManager::getInstance() {
-    if (!instance) instance = new PageManager();
-    return instance;
+    if (!_instance) _instance = new PageManager();
+    return _instance;
 }
 
 void PageManager::pushPage(IPage* page) {
     if (page) {
-        pageStack.push_back(page);
+        _pageStack.push_back(page);
         page->onEnter();
     }
 }
 
 void PageManager::popPage() {
-    if (pageStack.size() > 1) {
-        pageStack.pop_back();
-        pageStack.back()->onEnter(); 
+    if (_pageStack.size() > 1) {
+        _pageStack.pop_back();
+        _pageStack.back()->onEnter(); 
     }
 }
 
 IPage* PageManager::getCurrentPage() {
-    if (pageStack.empty()) return nullptr;
-    return pageStack.back();
+    if (_pageStack.empty()) return nullptr;
+    return _pageStack.back();
 }
 
 void PageManager::switchPage(IPage* page) {
-    pageStack.clear();
+    _pageStack.clear();
     pushPage(page);
 }
 
-PageManager* PageManager::instance = nullptr;
+PageManager* PageManager::_instance = nullptr;

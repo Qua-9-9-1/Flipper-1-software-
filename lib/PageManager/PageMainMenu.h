@@ -19,9 +19,9 @@ class PageMainMenu : public IPage {
     private:
         void normalizePos();
 
-        int pos[2];
-        std::vector<std::pair<int, IPage*>> linkedPages;
-        const unsigned char* icons[6] = {
+        int _pos[2];
+        std::vector<std::pair<int, IPage*>> _linkedPages;
+        const unsigned char* _icons[6] = {
             icon_ghz,
             icon_nfc_rfid,
             icon_ir,

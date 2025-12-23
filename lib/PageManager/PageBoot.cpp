@@ -1,17 +1,17 @@
 #include "PageBoot.h"
 
-PageBoot::PageBoot() : progress(0), lastUpdate(0) {}
+PageBoot::PageBoot() : _progress(0), _lastUpdate(0) {}
 
 void PageBoot::onEnter() {
-    progress = 0;
+    _progress = 0;
 }
 
 void PageBoot::draw(U8G2 *u8g2) {
     // Loading simulation
-    if (millis() - lastUpdate > 50) { 
-        progress++;
-        lastUpdate = millis();
-        if (progress > 100) {
+    if (millis() - _lastUpdate > 50) { 
+        _progress++;
+        _lastUpdate = millis();
+        if (_progress > 100) {
             // transition to main menu
         }
     }
@@ -19,6 +19,6 @@ void PageBoot::draw(U8G2 *u8g2) {
     u8g2->clearBuffer();
     u8g2->drawStr(30, 30, "FLIPPER -1");
     u8g2->drawFrame(14, 40, 100, 10);
-    u8g2->drawBox(16, 42, progress, 6);
+    u8g2->drawBox(16, 42, _progress, 6);
     u8g2->sendBuffer();
 }

@@ -11,6 +11,6 @@ class PageManager {
         IPage* getCurrentPage();
         void switchPage(IPage* page); // Go to page whithout history
     private:
-        std::vector<IPage*> pageStack;
-        static PageManager* instance;
+        std::vector<IPage*> _pageStack;
+        static PageManager* _instance;
 };

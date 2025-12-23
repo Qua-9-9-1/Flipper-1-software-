@@ -9,6 +9,6 @@ class PageBoot : public IPage {
         void onEvent(AppEvent *e) override {}
         void draw(U8G2 *u8g2) override;
     private:
-        int progress;
-        unsigned long lastUpdate;
+        int _progress;
+        unsigned long _lastUpdate;
 };

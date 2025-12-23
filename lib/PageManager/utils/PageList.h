@@ -25,7 +25,7 @@ static icon_list_t ListIcons[] = {
 
 class PageList : public IPage {
     public:
-        PageList(const char* t);
+        PageList(const char* title);
         void addItem(const char* name, IPage* target, uint8_t iconIndex = -1);
         void onEvent(AppEvent *event) override;
         void draw(U8G2 *u8g2) override;
@@ -34,8 +34,8 @@ class PageList : public IPage {
         void normalizeCursor();
         void drawIcon(U8G2 *u8g2, uint8_t iconIndex);
 
-        const char* title;
-        std::vector<ListItem> items;
-        int selectedIndex;
-        int scrollOffset;
+        const char* _title;
+        std::vector<ListItem> _items;
+        int _selectedIndex;
+        int _scrollOffset;
 };
