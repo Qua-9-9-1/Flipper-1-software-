@@ -6,7 +6,9 @@ enum EventType {
     EVENT_NFC,
     EVENT_BUTTON_CLICK,
     EVENT_BUTTON_DOWN,
-    EVENT_BUTTON_UP
+    EVENT_BUTTON_UP,
+    EVENT_LED_SET_MODE,
+    EVENT_LED_SET_COLOR
 };
 
 enum ButtonID {
@@ -18,7 +20,22 @@ enum ButtonID {
     BTN_BACK
 };
 
+enum LedMode {
+    LED_MODE_OFF,
+    LED_MODE_BOOT,
+    LED_MODE_BATTERY,
+    LED_MODE_SCAN,
+    LED_MODE_ACTION,
+    LED_MODE_MANUAL
+};
+
 struct AppEvent {
     EventType type; 
+    int value;
+    int extra;
+};
+
+struct LedCommand {
+    LedMode mode;
     int value;
 };

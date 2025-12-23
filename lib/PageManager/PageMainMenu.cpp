@@ -10,6 +10,10 @@ PageMainMenu::~PageMainMenu() {
     linkedPages.clear();
 }
 
+void PageMainMenu::onEnter() {
+    setLedMode(LED_MODE_BATTERY, 100);
+}
+
 void PageMainMenu::onEvent(AppEvent *event) {
     int index = 0;
     IPage* target = nullptr;

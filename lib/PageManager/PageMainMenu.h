@@ -3,6 +3,7 @@
 #include "PageManager.h"
 #include "AppEvents.h"
 #include "Assets.h"
+#include "helpers/LedHelper.h"
 
 #define COLS 4
 #define ROWS 2
@@ -11,9 +12,9 @@ class PageMainMenu : public IPage {
     public:
         PageMainMenu();
         ~PageMainMenu();
+        void onEnter() override;
         void onEvent(AppEvent *event) override;
         void draw(U8G2 *u8g2) override;
-        void onEnter() override {}
         void addIcon(int icon, IPage* linkedPage);
     private:
         void normalizePos();

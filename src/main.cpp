@@ -3,15 +3,19 @@
 #include "tasks/TaskUI.h"
 #include "tasks/TaskInput.h"
 #include "tasks/TaskRadio.h"
+#include "tasks/TaskLED.h"
 
 QueueHandle_t eventQueue;
+QueueHandle_t ledQueue;
 
 void setup() {
     Serial.begin(115200);
     eventQueue = xQueueCreate(10, sizeof(AppEvent));
+    ledQueue = xQueueCreate(5, sizeof(LedCommand));
 
     xTaskCreate(taskUI, "UITask", 4096, NULL, 1, NULL);
     xTaskCreate(taskInput, "InputTask", 2048, NULL, 1, NULL);
+    xTaskCreate(taskLed, "LedTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
 }
 

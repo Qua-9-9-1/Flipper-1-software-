@@ -66,7 +66,7 @@ void taskInput(void *pvParameters) {
         btnOk.tick();
         btnBack.tick();
 
-        for(int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             bool currentState = !digitalRead(pins[i]); // Active LOW
             if (currentState != lastState[i]) {
                 lastState[i] = currentState;

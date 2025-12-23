@@ -16,6 +16,4 @@
 #define PIN_BUZZER    42
 
 // RGB LED
-#define PIN_R_LED    4
-#define PIN_G_LED    5
-#define PIN_B_LED    6
+#define PIN_LED    18
