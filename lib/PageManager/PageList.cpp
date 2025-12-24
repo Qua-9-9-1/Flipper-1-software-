@@ -8,7 +8,8 @@ void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex) {
 
 void PageList::onEvent(AppEvent *event) {
     if (event->type == EVENT_BUTTON_CLICK) {
-        switch(event->value) {
+        playSound(SOUND_TICK);
+        switch (event->value) {
             case BTN_UP:
                 _selectedIndex--; 
                 break;

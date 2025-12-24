@@ -1,8 +1,9 @@
 #pragma once
-#include "Page.h"
 #include <vector>
+#include "Page.h"
 #include "PageManager.h"
 #include "Assets.h"
+#include "AudioHelper.h"
 
 #define YSTART 24
 
@@ -10,7 +11,7 @@ struct ListItem {
     const char* title;
     IPage* targetPage;
     uint8_t iconIndex;
-    // int actionID; // to do an action instead of navigating
+    // int actionID; to do an action instead of navigating
 };
 
 struct icon_list_t {

@@ -8,7 +8,8 @@ enum EventType {
     EVENT_BUTTON_DOWN,
     EVENT_BUTTON_UP,
     EVENT_LED_SET_MODE,
-    EVENT_LED_SET_COLOR
+    EVENT_LED_SET_COLOR,
+    EVENT_PLAY_SOUND,
 };
 
 enum ButtonID {
@@ -27,6 +28,16 @@ enum LedMode {
     LED_MODE_SCAN,
     LED_MODE_ACTION,
     LED_MODE_MANUAL
+};
+
+enum SoundType {
+    SOUND_MUTE,
+    SOUND_TICK,
+    SOUND_OK,
+    SOUND_BACK,
+    SOUND_ERROR,
+    SOUND_SUCCESS,
+    SOUND_MELODY_BOOT
 };
 
 struct AppEvent {

@@ -19,6 +19,7 @@ void PageMainMenu::onEvent(AppEvent *event) {
     IPage* target = nullptr;
 
     if (event->type == EVENT_BUTTON_CLICK) {
+        playSound(SOUND_TICK);
         switch (event->value) {
             case BTN_UP:    _pos[1]--; break;
             case BTN_DOWN:  _pos[1]++; break;

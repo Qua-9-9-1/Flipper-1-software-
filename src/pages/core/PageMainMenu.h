@@ -4,6 +4,7 @@
 #include "AppEvents.h"
 #include "Assets.h"
 #include "LedHelper.h"
+#include "AudioHelper.h"
 
 #define COLS 4
 #define ROWS 2
