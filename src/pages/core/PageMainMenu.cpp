@@ -6,25 +6,29 @@ PageMainMenu::PageMainMenu() {
     _linkedPages.clear();
 }
 
-PageMainMenu::~PageMainMenu() {
-    _linkedPages.clear();
-}
+PageMainMenu::~PageMainMenu() { _linkedPages.clear(); }
 
-void PageMainMenu::onEnter() {
-    setLedMode(LED_MODE_BATTERY, 100);
-}
+void PageMainMenu::onEnter() { setLedMode(LED_MODE_BATTERY, 100); }
 
-void PageMainMenu::onEvent(AppEvent *event) {
-    int index = 0;
+void PageMainMenu::onEvent(AppEvent* event) {
+    int    index  = 0;
     IPage* target = nullptr;
 
     if (event->type == EVENT_BUTTON_CLICK) {
         playSound(SOUND_TICK);
         switch (event->value) {
-            case BTN_UP:    _pos[1]--; break;
-            case BTN_DOWN:  _pos[1]++; break;
-            case BTN_LEFT:  _pos[0]--; break;
-            case BTN_RIGHT: _pos[0]++; break;
+            case BTN_UP:
+                _pos[1]--;
+                break;
+            case BTN_DOWN:
+                _pos[1]++;
+                break;
+            case BTN_LEFT:
+                _pos[0]--;
+                break;
+            case BTN_RIGHT:
+                _pos[0]++;
+                break;
             case BTN_OK: {
                 index = (_pos[1] * COLS) + _pos[0];
                 if (index >= 0 && index < (int)_linkedPages.size()) {
@@ -42,7 +46,7 @@ void PageMainMenu::onEvent(AppEvent *event) {
     }
 }
 
-void PageMainMenu::draw(U8G2 *u8g2) {
+void PageMainMenu::draw(U8G2* u8g2) {
     int x = 0;
     int y = 0;
     u8g2->clearBuffer();
@@ -52,7 +56,8 @@ void PageMainMenu::draw(U8G2 *u8g2) {
         y = (i / COLS) * MENU_ICON_DIM;
         u8g2->drawXBMP(x, y, MENU_ICON_DIM, MENU_ICON_DIM, _icons[i]);
 
-        u8g2->drawFrame(_pos[0] * MENU_ICON_DIM, _pos[1] * MENU_ICON_DIM, MENU_ICON_DIM, MENU_ICON_DIM);
+        u8g2->drawFrame(_pos[0] * MENU_ICON_DIM, _pos[1] * MENU_ICON_DIM, MENU_ICON_DIM,
+                        MENU_ICON_DIM);
     }
 
     u8g2->sendBuffer();
@@ -68,8 +73,8 @@ void PageMainMenu::addIcon(int icon, IPage* linkedPage) {
 
 void PageMainMenu::normalizePos() {
     int maxIndex = _linkedPages.size() - 1;
-    int maxRow = maxIndex / COLS;
-    int maxCol = maxIndex % COLS;
+    int maxRow   = maxIndex / COLS;
+    int maxCol   = maxIndex % COLS;
 
     if (_pos[0] < 0) _pos[0] = COLS - 1;
     if (_pos[0] >= COLS) _pos[0] = 0;

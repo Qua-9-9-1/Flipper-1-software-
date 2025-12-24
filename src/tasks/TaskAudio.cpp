@@ -2,9 +2,9 @@
 
 extern QueueHandle_t audioQueue;
 
-void taskAudio(void *pvParameters) {
+void taskAudio(void* pvParameters) {
     BuzzerDriver buzzer(PIN_BUZZER);
-    SoundType soundToPlay;
+    SoundType    soundToPlay;
     buzzer.init();
 
     // boot sound

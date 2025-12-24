@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#include "System.hpp"
+
 #include "PageRegistry.hpp"
+#include "System.hpp"
 
 void setup() {
     System::init();

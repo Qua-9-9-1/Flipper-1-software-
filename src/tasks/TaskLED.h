@@ -1,6 +1,6 @@
 #pragma once
 #include "AppEvents.h"
-#include "PinDefinitions.h"
 #include "LedDriver.hpp"
+#include "PinDefinitions.h"
 
-void taskLed(void *pvParameters);
+void taskLed(void* pvParameters);

@@ -12,14 +12,7 @@ enum EventType {
     EVENT_PLAY_SOUND,
 };
 
-enum ButtonID {
-    BTN_UP,
-    BTN_DOWN,
-    BTN_LEFT,
-    BTN_RIGHT,
-    BTN_OK,
-    BTN_BACK
-};
+enum ButtonID { BTN_UP, BTN_DOWN, BTN_LEFT, BTN_RIGHT, BTN_OK, BTN_BACK };
 
 enum LedMode {
     LED_MODE_OFF,
@@ -41,12 +34,12 @@ enum SoundType {
 };
 
 struct AppEvent {
-    EventType type; 
-    int value;
-    int extra;
+    EventType type;
+    int       value;
+    int       extra;
 };
 
 struct LedCommand {
     LedMode mode;
-    int value;
+    int     value;
 };

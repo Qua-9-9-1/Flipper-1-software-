@@ -15,7 +15,7 @@ void PageManager::pushPage(IPage* page) {
 void PageManager::popPage() {
     if (_pageStack.size() > 1) {
         _pageStack.pop_back();
-        _pageStack.back()->onEnter(); 
+        _pageStack.back()->onEnter();
     }
 }
 

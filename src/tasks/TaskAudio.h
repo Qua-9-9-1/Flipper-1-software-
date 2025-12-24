@@ -1,5 +1,5 @@
 #include "AppEvents.h"
-#include "PinDefinitions.h"
 #include "BuzzerDriver.hpp"
+#include "PinDefinitions.h"
 
-void taskAudio(void *pvParameters);
+void taskAudio(void* pvParameters);

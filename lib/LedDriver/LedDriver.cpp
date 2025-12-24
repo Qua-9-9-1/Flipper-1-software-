@@ -1,6 +1,7 @@
 #include "LedDriver.hpp"
 
-LedDriver::LedDriver(uint8_t pin): _pin(pin), _brightness(50), _lastUpdate(0), _step(0), _fadeDirection(true) {
+LedDriver::LedDriver(uint8_t pin)
+    : _pin(pin), _brightness(50), _lastUpdate(0), _step(0), _fadeDirection(true) {
     // LED mode GRB + 800KHz
     _pixels = new Adafruit_NeoPixel(1, pin, NEO_GRB + NEO_KHZ800);
 }
@@ -19,7 +20,7 @@ void LedDriver::setBrightness(uint8_t brightness) {
 
 void LedDriver::tick(int currentMode, int batteryLevel) {
     unsigned long now = millis();
-    
+
     switch (currentMode) {
         case 0:
             LEDOff();
@@ -45,9 +46,7 @@ void LedDriver::tick(int currentMode, int batteryLevel) {
     }
 }
 
-uint32_t LedDriver::getColor(uint8_t r, uint8_t g, uint8_t b) {
-    return _pixels->Color(r, g, b);
-}
+uint32_t LedDriver::getColor(uint8_t r, uint8_t g, uint8_t b) { return _pixels->Color(r, g, b); }
 
 void LedDriver::LEDOff() {
     _pixels->clear();
@@ -56,7 +55,7 @@ void LedDriver::LEDOff() {
 
 void LedDriver::LEDBoot(unsigned long now) {
     if (now - _lastUpdate > 10) {
-        _lastUpdate = now;        
+        _lastUpdate = now;
         _step += _fadeDirection ? 2 : -2;
         if (_step >= 255) _fadeDirection = false;
         if (_step <= 0) _fadeDirection = true;
@@ -91,8 +90,8 @@ void LedDriver::LEDScan(unsigned long now) {
 
     if (now - _lastUpdate > 50) {
         _lastUpdate = now;
-        val = random(50, 255);
-        _pixels->setPixelColor(0, _pixels->Color(0, val, val)); 
+        val         = random(50, 255);
+        _pixels->setPixelColor(0, _pixels->Color(0, val, val));
         _pixels->show();
     }
 }
@@ -100,9 +99,11 @@ void LedDriver::LEDScan(unsigned long now) {
 void LedDriver::LEDAction(unsigned long now) {
     if (now - _lastUpdate > 100) {
         _lastUpdate = now;
-        _step = !_step;
-        if (_step) _pixels->setPixelColor(0, _pixels->Color(255, 0, 0));
-        else _pixels->clear();
+        _step       = !_step;
+        if (_step)
+            _pixels->setPixelColor(0, _pixels->Color(255, 0, 0));
+        else
+            _pixels->clear();
         _pixels->show();
     }
 }

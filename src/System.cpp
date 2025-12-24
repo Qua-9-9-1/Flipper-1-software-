@@ -5,9 +5,9 @@ QueueHandle_t ledQueue;
 QueueHandle_t audioQueue;
 
 void System::init() {
-    Serial.begin(115200);    
+    Serial.begin(115200);
     eventQueue = xQueueCreate(20, sizeof(AppEvent));
-    ledQueue = xQueueCreate(5, sizeof(LedCommand));
+    ledQueue   = xQueueCreate(5, sizeof(LedCommand));
     audioQueue = xQueueCreate(10, sizeof(SoundType));
 }
 

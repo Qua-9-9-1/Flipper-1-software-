@@ -1,13 +1,13 @@
 #include "TaskUI.h"
 
 extern QueueHandle_t eventQueue;
-extern PageMainMenu mainMenu;
-extern PageBoot bootPage;
+extern PageMainMenu  mainMenu;
+extern PageBoot      bootPage;
 
-void taskUI(void *pvParameters) {
+void taskUI(void* pvParameters) {
     DisplayDriver display(PIN_OLED_SDA, PIN_OLED_SCL);
-    IPage* currentPage = nullptr;
-    bool needRedraw = true;
+    IPage*        currentPage = nullptr;
+    bool          needRedraw  = true;
     display.init();
 
     PageManager::getInstance()->pushPage(&bootPage);
@@ -15,14 +15,14 @@ void taskUI(void *pvParameters) {
     PageManager::getInstance()->pushPage(&mainMenu);
 
     AppEvent e;
-    
+
     while (true) {
         currentPage = PageManager::getInstance()->getCurrentPage();
-        if (xQueueReceive(eventQueue, &e, 0)) { 
-             if (currentPage) {
-                 currentPage->onEvent(&e);
-                 needRedraw = true;
-             }
+        if (xQueueReceive(eventQueue, &e, 0)) {
+            if (currentPage) {
+                currentPage->onEvent(&e);
+                needRedraw = true;
+            }
         }
 
         if (PageManager::getInstance()->getCurrentPage() == &bootPage) {

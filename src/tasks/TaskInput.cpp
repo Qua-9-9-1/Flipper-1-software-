@@ -11,7 +11,7 @@ OneButton btnBack(PIN_BTN_BACK, true);
 
 void sendStateEvent(ButtonID btnId, bool isDown) {
     AppEvent e;
-    e.type = isDown ? EVENT_BUTTON_DOWN : EVENT_BUTTON_UP;
+    e.type  = isDown ? EVENT_BUTTON_DOWN : EVENT_BUTTON_UP;
     e.value = btnId;
     xQueueSend(eventQueue, &e, 0);
 }
@@ -46,14 +46,13 @@ void clickBack() {
     xQueueSend(eventQueue, &e, 0);
 }
 
-void taskInput(void *pvParameters) {
+void taskInput(void* pvParameters) {
     btnUp.attachClick(clickUp);
     btnDown.attachClick(clickDown);
     btnLeft.attachClick(clickLeft);
     btnRight.attachClick(clickRight);
     btnOk.attachClick(clickOk);
     btnBack.attachClick(clickBack);
-
 
     bool lastState[6] = {false};
     int pins[6] = {PIN_BTN_UP, PIN_BTN_DOWN, PIN_BTN_LEFT, PIN_BTN_RIGHT, PIN_BTN_OK, PIN_BTN_BACK};
@@ -67,12 +66,12 @@ void taskInput(void *pvParameters) {
         btnBack.tick();
 
         for (int i = 0; i < 6; i++) {
-            bool currentState = !digitalRead(pins[i]); // Active LOW
+            bool currentState = !digitalRead(pins[i]);  // Active LOW
             if (currentState != lastState[i]) {
                 lastState[i] = currentState;
-                
+
                 AppEvent e;
-                e.type = currentState ? EVENT_BUTTON_DOWN : EVENT_BUTTON_UP;
+                e.type  = currentState ? EVENT_BUTTON_DOWN : EVENT_BUTTON_UP;
                 e.value = i;
                 xQueueSend(eventQueue, &e, 0);
             }
