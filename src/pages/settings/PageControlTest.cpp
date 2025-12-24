@@ -1,4 +1,4 @@
-#include "PageControlTest.h"
+#include "PageControlTest.hpp"
 
 PageControlTest::PageControlTest(): _konamiIndex(0) {}
 

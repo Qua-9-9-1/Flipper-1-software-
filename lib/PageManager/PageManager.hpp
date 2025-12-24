@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Page.h"
+#include "Page.hpp"
 
 class PageManager {    
     public:

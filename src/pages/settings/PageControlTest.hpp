@@ -1,8 +1,8 @@
 #pragma once
-#include "Page.h"
 #include "PinDefinitions.h"
 #include "Assets.h"
-#include "PageManager.h"
+#include "Page.hpp"
+#include "PageManager.hpp"
 
 class PageControlTest : public IPage {
     public:

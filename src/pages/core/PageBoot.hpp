@@ -1,6 +1,6 @@
-#include "Page.h"
-#include "PageManager.h"
 #include "AppEvents.h"
+#include "Page.hpp"
+#include "PageManager.hpp"
 
 class PageBoot : public IPage {
     public:

@@ -1,4 +1,4 @@
-#include "PageBoot.h"
+#include "PageBoot.hpp"
 
 PageBoot::PageBoot() : _progress(0), _lastUpdate(0) {}
 

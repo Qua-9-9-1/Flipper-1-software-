@@ -1,10 +1,10 @@
 #include <vector>
-#include "Page.h"
-#include "PageManager.h"
 #include "AppEvents.h"
 #include "Assets.h"
 #include "LedHelper.h"
 #include "AudioHelper.h"
+#include "Page.hpp"
+#include "PageManager.hpp"
 
 #define COLS 4
 #define ROWS 2

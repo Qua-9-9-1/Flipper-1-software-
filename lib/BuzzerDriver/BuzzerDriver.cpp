@@ -1,4 +1,4 @@
-#include "BuzzerDriver.h"
+#include "BuzzerDriver.hpp"
 
 BuzzerDriver::BuzzerDriver(uint8_t pin) : _pin(pin), _channel(0) {}
 

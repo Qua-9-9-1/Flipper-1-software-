@@ -1,4 +1,4 @@
-#include "PageManager.h"
+#include "PageManager.hpp"
 
 PageManager* PageManager::getInstance() {
     if (!_instance) _instance = new PageManager();

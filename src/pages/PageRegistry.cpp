@@ -1,4 +1,4 @@
-#include "PageRegistry.h"
+#include "PageRegistry.hpp"
 
 PageMainMenu mainMenu;
 PageBoot bootPage;

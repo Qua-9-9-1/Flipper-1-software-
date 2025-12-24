@@ -1,4 +1,4 @@
-#include "PageMainMenu.h"
+#include "PageMainMenu.hpp"
 
 PageMainMenu::PageMainMenu() {
     _pos[0] = 0;

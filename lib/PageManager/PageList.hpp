@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
-#include "Page.h"
-#include "PageManager.h"
 #include "Assets.h"
 #include "AudioHelper.h"
+#include "Page.hpp"
+#include "PageManager.hpp"
 
 #define YSTART 24
 

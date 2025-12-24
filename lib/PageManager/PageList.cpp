@@ -1,4 +1,4 @@
-#include "PageList.h"
+#include "PageList.hpp"
 
 PageList::PageList(const char* title) : _title(title), _selectedIndex(0), _scrollOffset(0) {}
 

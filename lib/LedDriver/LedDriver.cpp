@@ -1,4 +1,4 @@
-#include "LedDriver.h"
+#include "LedDriver.hpp"
 
 LedDriver::LedDriver(uint8_t pin): _pin(pin), _brightness(50), _lastUpdate(0), _step(0), _fadeDirection(true) {
     // LED mode GRB + 800KHz

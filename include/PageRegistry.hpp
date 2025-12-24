@@ -1,9 +1,9 @@
 #pragma once
-#include "core/PageMainMenu.h"
-#include "core/PageBoot.h"
-#include "PageList.h"
-#include "settings/PageControlTest.h"
 #include "AppEvents.h"
+#include "core/PageMainMenu.hpp"
+#include "core/PageBoot.hpp"
+#include "PageList.hpp"
+#include "settings/PageControlTest.hpp"
 
 extern PageMainMenu mainMenu;
 extern PageBoot bootPage;
