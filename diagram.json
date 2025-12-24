@@ -3,7 +3,7 @@
   "author": "Quentin Duval",
   "editor": "wokwi",
   "parts": [
-    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": -48.18, "left": 23.77, "attrs": {} },
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": -19.38, "left": 14.17, "attrs": {} },
     {
       "type": "board-ssd1306",
       "id": "oled1",
@@ -60,7 +60,7 @@
       "left": 155.4,
       "attrs": { "volume": "0.1" }
     },
-    { "type": "wokwi-microsd-card", "id": "sd1", "top": -124.57, "left": 153.67, "attrs": {} },
+    { "type": "wokwi-microsd-card", "id": "sd1", "top": -38.17, "left": 124.87, "attrs": {} },
     { "type": "wokwi-neopixel", "id": "rgb2", "top": 236.5, "left": -77.8, "attrs": {} }
   ],
   "connections": [
@@ -86,7 +86,12 @@
     [ "bz1:2", "esp:42", "red", [ "h38", "v-86.4", "h-124.8" ] ],
     [ "esp:GND.1", "rgb2:VSS", "black", [ "h-76.85", "v68.1" ] ],
     [ "esp:5V", "rgb2:VDD", "orange", [ "h0" ] ],
-    [ "rgb2:DIN", "esp:18", "green", [ "h18.4", "v-163.2" ] ]
+    [ "rgb2:DIN", "esp:18", "green", [ "h18.4", "v-163.2" ] ],
+    [ "sd1:SCK", "esp:17", "violet", [ "h-259.2", "v95.99" ] ],
+    [ "sd1:DO", "esp:16", "gold", [ "h-240", "v105.71" ] ],
+    [ "sd1:DI", "esp:15", "blue", [ "h-230.4", "v57.51" ] ],
+    [ "sd1:CS", "esp:4", "green", [ "h-201.6", "v9.66" ] ],
+    [ "esp:5", "sd1:CD", "#8f4814", [ "h-28.85", "v-76.8", "h211.2" ] ]
   ],
   "dependencies": {}
 }

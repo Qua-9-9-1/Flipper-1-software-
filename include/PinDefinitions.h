@@ -17,3 +17,10 @@
 
 // RGB LED
 #define PIN_LED 18
+
+// SD Card
+#define PIN_SD_SCK 17
+#define PIN_SD_MISO 16
+#define PIN_SD_MOSI 15
+#define PIN_SD_CS 4
+#define PIN_SD_CD 5
