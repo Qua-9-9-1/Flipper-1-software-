@@ -21,8 +21,8 @@ struct icon_list_t {
     const uint8_t        height;
 };
 
-static icon_list_t ListIcons[] = {{icon_windows_bits, SYSTEM_ICON_DIM, SYSTEM_ICON_DIM},
-                                  {icon_macos_bits, SYSTEM_ICON_DIM, SYSTEM_ICON_DIM}};
+static icon_list_t ListIcons[] = {{icon_windows_bits, OS_ICON_DIM, OS_ICON_DIM},
+                                  {icon_macos_bits, OS_ICON_DIM, OS_ICON_DIM}};
 
 class PageList : public IPage {
    public:
