@@ -12,7 +12,7 @@ struct ListItem {
     const char* title;
     IPage*      targetPage;
     uint8_t     iconIndex;
-    // int actionID; to do an action instead of navigating
+    int         actionID;
 };
 
 struct icon_list_t {
@@ -27,7 +27,7 @@ static icon_list_t ListIcons[] = {{icon_windows_bits, SYSTEM_ICON_DIM, SYSTEM_IC
 class PageList : public IPage {
    public:
     PageList(const char* title);
-    void addItem(const char* name, IPage* target, uint8_t iconIndex = -1);
+    void addItem(const char* name, IPage* target, uint8_t iconIndex = -1, int actionID = -1);
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;
     void onEnter() override {}
@@ -35,6 +35,7 @@ class PageList : public IPage {
    private:
     void normalizeCursor();
     void drawIcon(U8G2* u8g2, uint8_t iconIndex);
+    void handleSelection(ListItem item);
 
     const char*           _title;
     std::vector<ListItem> _items;

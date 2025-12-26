@@ -2,8 +2,8 @@
 
 PageList::PageList(const char* title) : _title(title), _selectedIndex(0), _scrollOffset(0) {}
 
-void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex) {
-    _items.push_back({name, target, iconIndex});
+void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex, int actionID) {
+    _items.push_back({name, target, iconIndex, actionID});
 }
 
 void PageList::onEvent(AppEvent* event) {
@@ -17,9 +17,7 @@ void PageList::onEvent(AppEvent* event) {
                 _selectedIndex++;
                 break;
             case BTN_OK:
-                if (_items[_selectedIndex].targetPage) {
-                    PageManager::getInstance()->pushPage(_items[_selectedIndex].targetPage);
-                }
+                handleSelection(_items[_selectedIndex]);
                 break;
             case BTN_BACK:
                 PageManager::getInstance()->popPage();
@@ -62,5 +60,20 @@ void PageList::normalizeCursor() {
         _selectedIndex = _items.size() - 1;
     } else if (_selectedIndex >= _items.size()) {
         _selectedIndex = 0;
+    }
+}
+
+void PageList::handleSelection(ListItem item) {
+    if (item.targetPage) {
+        PageManager::getInstance()->pushPage(item.targetPage);
+    } else {
+        // C'est ici qu'on déclenchera l'action BadUSB plus tard !
+        // item.title contient le nom du fichier
+        // item.actionID contient l'index ou un ID
+        Serial.print("Action on item: ");
+        Serial.println(item.title);
+
+        // Exemple : Lancer l'exécution
+        // BadUsbManager::getInstance()->runScript(item.title);
     }
 }

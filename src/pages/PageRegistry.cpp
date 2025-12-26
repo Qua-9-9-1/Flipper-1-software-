@@ -30,6 +30,19 @@ void setupPages() {
     // badUSB.addItem("Payloads", nullptr);
     // badUSB.addItem("Create Payload", nullptr);
 
+    std::vector<String> scripts = StorageManager::getInstance()->listFiles("/Flipper-1/badusb");
+
+    if (scripts.empty()) {
+        badUSB.addItem("No Scripts found", nullptr);
+    } else {
+        static std::vector<String> persistentNames;
+        persistentNames = scripts;
+
+        for (size_t i = 0; i < persistentNames.size(); i++) {
+            badUSB.addItem(persistentNames[i].c_str(), nullptr, i);
+        }
+    }
+
     settings.addItem("Display", nullptr);
     settings.addItem("Sound", nullptr);
     settings.addItem("System Info", nullptr);

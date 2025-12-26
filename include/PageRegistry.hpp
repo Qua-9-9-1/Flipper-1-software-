@@ -3,6 +3,7 @@
 #include "PageList.hpp"
 #include "core/PageBoot.hpp"
 #include "core/PageMainMenu.hpp"
+#include "managers/StorageManager.hpp"
 #include "settings/PageControlTest.hpp"
 
 extern PageMainMenu mainMenu;
