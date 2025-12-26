@@ -18,5 +18,4 @@ void PageBoot::draw(U8G2* u8g2) {
     u8g2->drawStr(30, 30, "FLIPPER -1");
     u8g2->drawFrame(14, 40, 100, 10);
     u8g2->drawBox(16, 42, _progress, 6);
-    u8g2->sendBuffer();
 }

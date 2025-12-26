@@ -4,6 +4,8 @@ extern QueueHandle_t eventQueue;
 extern PageMainMenu  mainMenu;
 extern PageBoot      bootPage;
 
+ShutdownPopup shutdownPopup;
+
 void taskUI(void* pvParameters) {
     DisplayDriver display(PIN_OLED_SDA, PIN_OLED_SCL);
     IPage*        currentPage = nullptr;
@@ -19,14 +21,23 @@ void taskUI(void* pvParameters) {
     while (true) {
         currentPage = PageManager::getInstance()->getCurrentPage();
         while (xQueueReceive(eventQueue, &e, 0)) {
+            if (e.type == EVENT_SHUTDOWN_POPUP) {
+                shutdownPopup.show();
+                needRedraw = true;
+                continue;
+            }
+            if (shutdownPopup.onEvent(&e)) {
+                needRedraw = true;
+                continue;
+            }
             if (currentPage) {
                 currentPage->onEvent(&e);
                 needRedraw = true;
             }
         }
 
-        if (PageManager::getInstance()->getCurrentPage() == &bootPage) {
-            // TODO : manage boot in bootPage class switch
+        if (currentPage == &bootPage) {
+            // TODO : manage redirection to main menu in bootPage class
             static long startBoot = millis();
             if (millis() - startBoot > 3000) {
                 PageManager::getInstance()->switchPage(&mainMenu);
@@ -39,8 +50,13 @@ void taskUI(void* pvParameters) {
             } else {
                 display.showError(NO_PAGE);
             }
+            if (shutdownPopup.active()) {
+                shutdownPopup.draw(display.getU8g2());
+            }
+            display.getU8g2()->sendBuffer();
             needRedraw = false;
         }
-        vTaskDelay(30 / portTICK_PERIOD_MS);
+
+        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
 }

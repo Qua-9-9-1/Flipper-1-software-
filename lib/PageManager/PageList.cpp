@@ -44,8 +44,6 @@ void PageList::draw(U8G2* u8g2) {
         u8g2->drawStr(10, YSTART + (i * 12), _items[i].title);
         drawIcon(u8g2, _items[_selectedIndex].iconIndex);
     }
-
-    u8g2->sendBuffer();
 }
 
 void PageList::drawIcon(U8G2* u8g2, uint8_t iconIndex) {
@@ -72,8 +70,6 @@ void PageList::handleSelection(ListItem item) {
         // item.actionID contient l'index ou un ID
         Serial.print("Action on item: ");
         Serial.println(item.title);
-
-        // Exemple : Lancer l'exécution
         // BadUsbManager::getInstance()->runScript(item.title);
     }
 }

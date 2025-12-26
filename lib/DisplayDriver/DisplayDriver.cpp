@@ -29,7 +29,6 @@ void DisplayDriver::showError(ErrorCode code) {
     _u8g2->clearBuffer();
     _u8g2->drawStr(0, 10, "ERROR !");
     _u8g2->drawStr(0, 30, errorType);
-    _u8g2->sendBuffer();
     // TODO : reboot or poweroff option
 }
 

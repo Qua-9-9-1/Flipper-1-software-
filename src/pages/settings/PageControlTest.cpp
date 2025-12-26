@@ -85,6 +85,4 @@ void PageControlTest::draw(U8G2* u8g2) {
     u8g2->print("Konami: ");
     u8g2->print(_konamiIndex);
     u8g2->print("/10");
-
-    u8g2->sendBuffer();
 }
