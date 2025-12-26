@@ -1,7 +1,9 @@
 #include "PageRegistry.hpp"
 
+namespace PageRegistry {
 PageMainMenu mainMenu;
 PageBoot     bootPage;
+PageError    errorPage;
 
 PageList        subGhzMenu("Sub-GHz");
 PageList        nfcMenu("NFC / RFID");
@@ -9,8 +11,6 @@ PageList        IR("IR");
 PageList        badUSB("System / BadUSB");
 PageList        settings("Settings");
 PageControlTest controlTestPage;
-
-namespace PageRegistry {
 
 void setupPages() {
     subGhzMenu.addItem("Read / Sniff", nullptr);

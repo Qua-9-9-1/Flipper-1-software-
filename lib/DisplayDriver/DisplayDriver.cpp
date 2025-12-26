@@ -12,24 +12,4 @@ void DisplayDriver::init() {
     Wire.setClock(400000);  // set I2C frequency to 400kHz
 }
 
-void DisplayDriver::showError(ErrorCode code) {
-    const char* errorType;
-
-    switch (code) {
-        case NO_PAGE:
-            errorType = "No page";
-            break;
-        case CRASH:
-            errorType = "Crash";
-            break;
-        default:
-            errorType = "Uknown";
-            break;
-    }
-    _u8g2->clearBuffer();
-    _u8g2->drawStr(0, 10, "ERROR !");
-    _u8g2->drawStr(0, 30, errorType);
-    // TODO : reboot or poweroff option
-}
-
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C* DisplayDriver::getU8g2() { return _u8g2; }

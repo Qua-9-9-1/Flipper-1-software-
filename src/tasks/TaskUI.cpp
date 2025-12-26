@@ -1,8 +1,6 @@
 #include "TaskUI.h"
 
 extern QueueHandle_t eventQueue;
-extern PageMainMenu  mainMenu;
-extern PageBoot      bootPage;
 
 ShutdownPopup shutdownPopup;
 
@@ -12,9 +10,9 @@ void taskUI(void* pvParameters) {
     bool          needRedraw  = true;
     display.init();
 
-    PageManager::getInstance()->pushPage(&bootPage);
+    PageManager::getInstance()->pushPage(&PageRegistry::bootPage);
     // TODO : remove this line when boot page is complete
-    PageManager::getInstance()->pushPage(&mainMenu);
+    PageManager::getInstance()->pushPage(&PageRegistry::mainMenu);
 
     AppEvent e;
 
@@ -36,11 +34,11 @@ void taskUI(void* pvParameters) {
             }
         }
 
-        if (currentPage == &bootPage) {
+        if (currentPage == &PageRegistry::bootPage) {
             // TODO : manage redirection to main menu in bootPage class
             static long startBoot = millis();
             if (millis() - startBoot > 3000) {
-                PageManager::getInstance()->switchPage(&mainMenu);
+                PageManager::getInstance()->switchPage(&PageRegistry::mainMenu);
             }
         }
 
@@ -48,7 +46,8 @@ void taskUI(void* pvParameters) {
             if (currentPage) {
                 currentPage->draw(display.getU8g2());
             } else {
-                display.showError(NO_PAGE);
+                PageRegistry::errorPage.setError("No Page Loaded!");
+                PageManager::getInstance()->pushPage(&PageRegistry::errorPage);
             }
             if (shutdownPopup.active()) {
                 shutdownPopup.draw(display.getU8g2());
