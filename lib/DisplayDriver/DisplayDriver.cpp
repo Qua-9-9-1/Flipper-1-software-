@@ -9,6 +9,7 @@ void DisplayDriver::init() {
     Wire.begin(_sda, _scl);
     _u8g2->begin();
     _u8g2->setFont(u8g2_font_ncenB08_tr);
+    Wire.setClock(400000);  // set I2C frequency to 400kHz
 }
 
 void DisplayDriver::showError(ErrorCode code) {

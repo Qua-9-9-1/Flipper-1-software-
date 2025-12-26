@@ -18,7 +18,7 @@ void taskUI(void* pvParameters) {
 
     while (true) {
         currentPage = PageManager::getInstance()->getCurrentPage();
-        if (xQueueReceive(eventQueue, &e, 0)) {
+        while (xQueueReceive(eventQueue, &e, 0)) {
             if (currentPage) {
                 currentPage->onEvent(&e);
                 needRedraw = true;

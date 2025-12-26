@@ -50,5 +50,5 @@ void System::startTasks() {
     xTaskCreate(taskInput, "InputTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskLed, "LedTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskAudio, "AudioTask", 2048, NULL, 1, NULL);
-    xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
+    // xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
 }
