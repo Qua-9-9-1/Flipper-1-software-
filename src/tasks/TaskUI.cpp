@@ -1,7 +1,5 @@
 #include "TaskUI.h"
 
-extern QueueHandle_t eventQueue;
-
 ShutdownPopup shutdownPopup;
 
 void taskUI(void* pvParameters) {

@@ -11,6 +11,7 @@ PageList        IRPage("IR");
 PageList        badUSBPage("System / BadUSB");
 PageList        settingsPage("Settings");
 PageControlTest controlTestPage;
+PageIR          IRReceiverPage;
 
 void setupPages() {
     subGhzMenuPage.addItem("Read / Sniff", nullptr);
@@ -21,7 +22,7 @@ void setupPages() {
     nfcMenuPage.addItem("Emulate", nullptr);
 
     IRPage.addItem("Universal Remote", nullptr);
-    IRPage.addItem("Capture Signal", nullptr);
+    IRPage.addItem("Capture Signal", &IRReceiverPage);
     IRPage.addItem("Saved Signals", nullptr);
     badUSBPage.addItem("Windows", nullptr, 0);
     badUSBPage.addItem("macOS", nullptr, 1);

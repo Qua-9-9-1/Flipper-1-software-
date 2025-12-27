@@ -23,4 +23,8 @@
 #define PIN_SD_MISO 16
 #define PIN_SD_MOSI 15
 #define PIN_SD_CS 4
-#define PIN_SD_CD 5
+// #define PIN_SD_CD 5
+
+// IR
+#define PIN_IR_RX 47
+#define PIN_IR_TX 48

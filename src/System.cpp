@@ -3,6 +3,7 @@
 QueueHandle_t eventQueue;
 QueueHandle_t ledQueue;
 QueueHandle_t audioQueue;
+QueueHandle_t irQueue;
 
 void createTestFiles() {
     Serial.println("[System] Initializing Storage...");
@@ -42,6 +43,7 @@ void System::init() {
     eventQueue = xQueueCreate(20, sizeof(AppEvent));
     ledQueue   = xQueueCreate(5, sizeof(LedCommand));
     audioQueue = xQueueCreate(10, sizeof(SoundType));
+    irQueue    = xQueueCreate(5, sizeof(IrCommand));
     createTestFiles();
 }
 
@@ -50,5 +52,6 @@ void System::startTasks() {
     xTaskCreate(taskInput, "InputTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskLed, "LedTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskAudio, "AudioTask", 2048, NULL, 1, NULL);
+    xTaskCreate(taskIR, "IRTask", 4096, NULL, 5, NULL);
     // xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
 }
