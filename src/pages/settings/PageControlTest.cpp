@@ -76,9 +76,9 @@ void PageControlTest::draw(U8G2* u8g2) {
                    _isLeftPressed ? arrow_left_clicked_bits : arrow_left_bits);
     u8g2->drawXBMP(48, 15, ARROW_HEIGHT, ARROW_WIDTH,
                    _isRightPressed ? arrow_right_clicked_bits : arrow_right_bits);
-    u8g2->drawXBMP(73, 3, BUTTON_WIDTH, BUTTON_HEIGHT,
+    u8g2->drawXBMP(73, 3, BUTTON_DIM, BUTTON_DIM,
                    _isOkPressed ? ok_button_clicked_bits : ok_button_bits);
-    u8g2->drawXBMP(93, 28, BUTTON_WIDTH, BUTTON_HEIGHT,
+    u8g2->drawXBMP(93, 28, BUTTON_DIM, BUTTON_DIM,
                    _isBackPressed ? back_button_clicked_bits : back_button_bits);
 
     u8g2->setCursor(20, 62);
