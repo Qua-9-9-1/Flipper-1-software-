@@ -23,26 +23,53 @@ void PageList::onEvent(AppEvent* event) {
                 PageManager::getInstance()->popPage();
                 break;
         }
+        if (_selectedIndex < _scrollOffset) {
+            _scrollOffset = _selectedIndex;
+        } else if (_selectedIndex >= _scrollOffset + ITEMS_PER_SCREEN) {
+            _scrollOffset = _selectedIndex - ITEMS_PER_SCREEN + 1;
+        }
         normalizeCursor();
     }
 }
 
 void PageList::draw(U8G2* u8g2) {
-    u8g2->clearBuffer();
+    int endIndex    = _scrollOffset + ITEMS_PER_SCREEN + 1;
+    int visualIndex = 0;
+    int yPos        = 0;
 
+    u8g2->clearBuffer();
     u8g2->setDrawColor(1);
-    u8g2->drawBox(0, 0, 128, 12);
+    u8g2->drawBox(0, 0, 128, HEADER_HEIGHT);
     u8g2->setDrawColor(0);
     u8g2->setFont(u8g2_font_6x10_tf);
-    u8g2->drawStr(2, 10, _title);
-
+    u8g2->drawStr(4, (HEADER_HEIGHT + 8) / 2, _title);
     u8g2->setDrawColor(1);
+    if (endIndex > _items.size()) endIndex = _items.size();
+    for (int i = _scrollOffset; i < endIndex; i++) {
+        visualIndex = i - _scrollOffset;
+        yPos        = HEADER_HEIGHT + (visualIndex * LINE_HEIGHT);
+        if (i == _selectedIndex) {
+            u8g2->drawStr(0, yPos + 10, ">");
+        }
+        u8g2->drawStr(10, yPos + 10, _items[i].title);
+    }
+    drawScrollbar(u8g2);
+    u8g2->sendBuffer();
+}
 
-    for (int i = 0; i < _items.size(); i++) {
-        // TODO : handle scrolling
-        if (i == _selectedIndex) u8g2->drawStr(0, YSTART + (i * 12), ">");
-        u8g2->drawStr(10, YSTART + (i * 12), _items[i].title);
-        drawIcon(u8g2, _items[_selectedIndex].iconIndex);
+void PageList::drawScrollbar(U8G2* u8g2) {
+    int totalHeight = 0;
+    int barHeight   = 0;
+    int barY        = 0;
+
+    if (_items.size() > ITEMS_PER_SCREEN) {
+        totalHeight = 64 - HEADER_HEIGHT;
+        barHeight   = (totalHeight * ITEMS_PER_SCREEN) / _items.size();
+        if (barHeight < 4) barHeight = 4;
+        barY = HEADER_HEIGHT +
+               ((totalHeight - barHeight) * _scrollOffset) / (_items.size() - ITEMS_PER_SCREEN);
+        u8g2->drawBox(124, barY, 3, barHeight);
+        u8g2->drawFrame(123, HEADER_HEIGHT, 5, totalHeight);
     }
 }
 
@@ -56,8 +83,11 @@ void PageList::drawIcon(U8G2* u8g2, uint8_t iconIndex) {
 void PageList::normalizeCursor() {
     if (_selectedIndex < 0) {
         _selectedIndex = _items.size() - 1;
+        _scrollOffset  = _items.size() - ITEMS_PER_SCREEN;
+        if (_scrollOffset < 0) _scrollOffset = 0;
     } else if (_selectedIndex >= _items.size()) {
         _selectedIndex = 0;
+        _scrollOffset  = 0;
     }
 }
 
@@ -65,9 +95,7 @@ void PageList::handleSelection(ListItem item) {
     if (item.targetPage) {
         PageManager::getInstance()->pushPage(item.targetPage);
     } else {
-        // C'est ici qu'on déclenchera l'action BadUSB plus tard !
-        // item.title contient le nom du fichier
-        // item.actionID contient l'index ou un ID
+        // action handling
         Serial.print("Action on item: ");
         Serial.println(item.title);
         // BadUsbManager::getInstance()->runScript(item.title);

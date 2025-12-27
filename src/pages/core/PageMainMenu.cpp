@@ -61,12 +61,12 @@ void PageMainMenu::draw(U8G2* u8g2) {
     }
 }
 
-void PageMainMenu::addIcon(int icon, IPage* linkedPage) {
+void PageMainMenu::addIcon(Icon icon, IPage* linkedPage) {
     if (_linkedPages.size() == 8) {
         Serial.println("Max icons reached");
         return;
     }
-    _linkedPages.push_back(std::make_pair(icon, linkedPage));
+    _linkedPages.push_back(std::make_pair((int)icon, linkedPage));
 }
 
 void PageMainMenu::normalizePos() {

@@ -1,58 +1,56 @@
 #include "PageRegistry.hpp"
 
 namespace PageRegistry {
-PageMainMenu mainMenu;
+PageMainMenu mainMenuPage;
 PageBoot     bootPage;
 PageError    errorPage;
 
-PageList        subGhzMenu("Sub-GHz");
-PageList        nfcMenu("NFC / RFID");
-PageList        IR("IR");
-PageList        badUSB("System / BadUSB");
-PageList        settings("Settings");
+PageList        subGhzMenuPage("Sub-GHz");
+PageList        nfcMenuPage("NFC / RFID");
+PageList        IRPage("IR");
+PageList        badUSBPage("System / BadUSB");
+PageList        settingsPage("Settings");
 PageControlTest controlTestPage;
 
 void setupPages() {
-    subGhzMenu.addItem("Read / Sniff", nullptr);
-    subGhzMenu.addItem("Saved", nullptr);
-    subGhzMenu.addItem("Add Manually", nullptr);
+    subGhzMenuPage.addItem("Read / Sniff", nullptr);
+    subGhzMenuPage.addItem("Saved", nullptr);
+    subGhzMenuPage.addItem("Add Manually", nullptr);
 
-    nfcMenu.addItem("Read Card", nullptr);
-    nfcMenu.addItem("Emulate", nullptr);
+    nfcMenuPage.addItem("Read Card", nullptr);
+    nfcMenuPage.addItem("Emulate", nullptr);
 
-    IR.addItem("Universal Remote", nullptr);
-    IR.addItem("Capture Signal", nullptr);
-    IR.addItem("Saved Signals", nullptr);
-
-    badUSB.addItem("Windows", nullptr, 0);
-    badUSB.addItem("macOS", nullptr, 1);
-    badUSB.addItem("Linux", nullptr);
-    // badUSB.addItem("Payloads", nullptr);
-    // badUSB.addItem("Create Payload", nullptr);
-
+    IRPage.addItem("Universal Remote", nullptr);
+    IRPage.addItem("Capture Signal", nullptr);
+    IRPage.addItem("Saved Signals", nullptr);
+    badUSBPage.addItem("Windows", nullptr, 0);
+    badUSBPage.addItem("macOS", nullptr, 1);
+    badUSBPage.addItem("Linux", nullptr);
+    // badUSBPage.addItem("Payloads", nullptr);
+    // badUSBPage.addItem("Create Payload", nullptr);
     std::vector<String> scripts = StorageManager::getInstance()->listFiles("/Flipper-1/badusb");
 
     if (scripts.empty()) {
-        badUSB.addItem("No Scripts found", nullptr);
+        badUSBPage.addItem("No Scripts found", nullptr);
     } else {
         static std::vector<String> persistentNames;
         persistentNames = scripts;
 
         for (size_t i = 0; i < persistentNames.size(); i++) {
-            badUSB.addItem(persistentNames[i].c_str(), nullptr, i);
+            badUSBPage.addItem(persistentNames[i].c_str(), nullptr, i);
         }
     }
 
-    settings.addItem("Display", nullptr);
-    settings.addItem("Sound", nullptr);
-    settings.addItem("System Info", nullptr);
-    settings.addItem("About", nullptr);
-    settings.addItem("Controls Test", &controlTestPage);
+    settingsPage.addItem("Display", nullptr);
+    settingsPage.addItem("Sound", nullptr);
+    settingsPage.addItem("System Info", nullptr);
+    settingsPage.addItem("About", nullptr);
+    settingsPage.addItem("Controls Test", &controlTestPage);
 
-    mainMenu.addIcon(ICON_RADIO, &subGhzMenu);
-    mainMenu.addIcon(ICON_NFC, &nfcMenu);
-    mainMenu.addIcon(ICON_IR, &IR);
-    mainMenu.addIcon(ICON_USB, &badUSB);
-    mainMenu.addIcon(ICON_SETTINGS, &settings);
+    mainMenuPage.addIcon(GHZ, &subGhzMenuPage);
+    mainMenuPage.addIcon(NFC_RFID, &nfcMenuPage);
+    mainMenuPage.addIcon(IR, &IRPage);
+    mainMenuPage.addIcon(USB, &badUSBPage);
+    mainMenuPage.addIcon(SETTINGS, &settingsPage);
 }
 }  // namespace PageRegistry

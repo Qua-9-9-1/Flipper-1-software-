@@ -7,8 +7,7 @@
 #include "Page.hpp"
 #include "PageManager.hpp"
 
-#define COLS 4
-#define ROWS 2
+enum Icon { GHZ, NFC_RFID, IR, USB, SETTINGS, POWEROFF };
 
 class PageMainMenu : public IPage {
    public:
@@ -17,7 +16,7 @@ class PageMainMenu : public IPage {
     void onEnter() override;
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;
-    void addIcon(int icon, IPage* linkedPage);
+    void addIcon(Icon icon, IPage* linkedPage);
 
    private:
     void normalizePos();
@@ -26,4 +25,6 @@ class PageMainMenu : public IPage {
     std::vector<std::pair<int, IPage*>> _linkedPages;
     const unsigned char*                _icons[6] = {icon_ghz, icon_nfc_rfid, icon_ir,
                                                      icon_usb, icon_settings, icon_poweroff};
+    const int                           COLS      = 4;
+    const int                           ROWS      = 2;
 };

@@ -8,7 +8,7 @@
 #include "settings/PageControlTest.hpp"
 
 namespace PageRegistry {
-extern PageMainMenu mainMenu;
+extern PageMainMenu mainMenuPage;
 extern PageBoot     bootPage;
 extern PageError    errorPage;
 
