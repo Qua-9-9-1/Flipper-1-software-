@@ -4,4 +4,6 @@
 #include "AppEvents.h"
 #include "PinDefinitions.h"
 
+extern QueueHandle_t eventQueue;
+
 void taskInput(void* pvParameters);

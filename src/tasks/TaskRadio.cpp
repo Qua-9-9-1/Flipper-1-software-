@@ -1,7 +1,5 @@
 #include "TaskRadio.h"
 
-extern QueueHandle_t eventQueue;
-
 void taskDummyRadio(void* pvParameters) {
     while (true) {
         vTaskDelay(2000 / portTICK_PERIOD_MS);

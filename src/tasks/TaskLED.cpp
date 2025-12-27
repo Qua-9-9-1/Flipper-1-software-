@@ -1,7 +1,5 @@
 #include "TaskLed.h"
 
-extern QueueHandle_t ledQueue;
-
 void taskLed(void* pvParameters) {
     LedDriver  led(PIN_LED);
     LedMode    currentMode = LED_MODE_BOOT;

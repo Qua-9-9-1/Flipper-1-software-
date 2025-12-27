@@ -3,4 +3,6 @@
 
 #include "AppEvents.h"
 
+extern QueueHandle_t eventQueue;
+
 void taskDummyRadio(void* pvParameters);

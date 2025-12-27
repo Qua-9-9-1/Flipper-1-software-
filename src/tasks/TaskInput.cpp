@@ -1,7 +1,5 @@
 #include "TaskInput.h"
 
-extern QueueHandle_t eventQueue;
-
 OneButton btnUp(PIN_BTN_UP, true);
 OneButton btnDown(PIN_BTN_DOWN, true);
 OneButton btnLeft(PIN_BTN_LEFT, true);

@@ -11,6 +11,8 @@
 #include "core/ShutdownPopup.hpp"
 #include "settings/PageControlTest.hpp"
 
+extern QueueHandle_t eventQueue;
+
 enum PageState { PAGE_MENU, PAGE_RADIO, PAGE_CONTROLS };
 
 void taskUI(void* pvParameters);

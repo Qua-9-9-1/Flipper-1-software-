@@ -1,7 +1,5 @@
 #include "TaskAudio.h"
 
-extern QueueHandle_t audioQueue;
-
 void taskAudio(void* pvParameters) {
     BuzzerDriver buzzer(PIN_BUZZER);
     SoundType    soundToPlay;
