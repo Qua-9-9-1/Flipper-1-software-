@@ -9,14 +9,22 @@ void taskLed(void* pvParameters) {
     led.init();
     while (true) {
         if (xQueueReceive(ledQueue, &cmd, 0) == pdTRUE) {
-            currentMode = cmd.mode;
-            if (currentMode == LED_MODE_BATTERY && cmd.value > 0) {
-                batteryLevel = cmd.value;
+            if (cmd.mode == LED_MODE_SET_COLOR) {
+                uint8_t r = (cmd.value >> 16) & 0xFF;
+                uint8_t g = (cmd.value >> 8) & 0xFF;
+                uint8_t b = cmd.value & 0xFF;
+                led.setColor(r, g, b);
+            } else if (cmd.mode == LED_MODE_TIMEOUT) {
+                led.startTimeout(cmd.value);
+                currentMode = LED_MODE_TIMEOUT;
+            } else {
+                currentMode = cmd.mode;
+                if (currentMode == LED_MODE_BATTERY && cmd.value > 0) {
+                    batteryLevel = cmd.value;
+                }
             }
-            // TODO: handle other modes with values if needed
         }
         led.tick(currentMode, batteryLevel);
-
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }

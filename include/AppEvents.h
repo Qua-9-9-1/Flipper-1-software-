@@ -18,12 +18,14 @@ enum EventType {
 enum ButtonID { BTN_UP, BTN_DOWN, BTN_LEFT, BTN_RIGHT, BTN_OK, BTN_BACK };
 
 enum LedMode {
+    LED_MODE_SET_COLOR,
+    LED_MODE_ON,
     LED_MODE_OFF,
+    LED_MODE_BLINK,
+    LED_MODE_FADE,
     LED_MODE_BOOT,
     LED_MODE_BATTERY,
-    LED_MODE_SCAN,
-    LED_MODE_ACTION,
-    LED_MODE_MANUAL
+    LED_MODE_TIMEOUT
 };
 
 enum SoundType {

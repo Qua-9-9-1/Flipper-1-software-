@@ -3,6 +3,7 @@
 
 #include "Assets.h"
 #include "AudioHelper.h"
+#include "LedHelper.h"
 #include "Page.hpp"
 #include "PageManager.hpp"
 
@@ -25,7 +26,7 @@ static icon_list_t ListIcons[] = {{icon_windows_bits, OS_ICON_DIM, OS_ICON_DIM},
 class PageList : public IPage {
    public:
     PageList(const char* title);
-    void onEnter() override {};
+    void onEnter() override;
     void addItem(const char* name, IPage* target, uint8_t iconIndex = -1, int actionID = -1);
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;

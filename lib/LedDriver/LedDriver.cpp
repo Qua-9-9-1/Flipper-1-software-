@@ -1,7 +1,13 @@
 #include "LedDriver.hpp"
 
 LedDriver::LedDriver(uint8_t pin)
-    : _pin(pin), _brightness(50), _lastUpdate(0), _step(0), _fadeDirection(true) {
+    : _pin(pin),
+      _brightness(50),
+      _lastUpdate(0),
+      _color({0, 0, 0}),
+      _step(0),
+      _endTimeout(0),
+      _fadeDirection(true) {
     // LED mode GRB + 800KHz
     _pixels = new Adafruit_NeoPixel(1, pin, NEO_GRB + NEO_KHZ800);
 }
@@ -18,40 +24,51 @@ void LedDriver::setBrightness(uint8_t brightness) {
     _pixels->show();
 }
 
-void LedDriver::tick(int currentMode, int batteryLevel) {
-    unsigned long now = millis();
-
-    switch (currentMode) {
-        case 0:
-            LEDOff();
-            break;
-        case 1:
-            LEDBoot(now);
-            break;
-        case 2:
-            LEDBattery(now, batteryLevel);
-            break;
-        case 3:
-            LEDScan(now);
-            break;
-        case 4:
-            LEDAction(now);
-            break;
-        case 5:
-            LEDManual(getColor(255, 255, 255));
-            break;
-        default:
-            LEDOff();
-            break;
-    }
+void LedDriver::setColor(uint8_t r, uint8_t g, uint8_t b) {
+    _color[0] = r;
+    _color[1] = g;
+    _color[2] = b;
+    _pixels->setPixelColor(0, _pixels->Color(r, g, b));
 }
 
-uint32_t LedDriver::getColor(uint8_t r, uint8_t g, uint8_t b) { return _pixels->Color(r, g, b); }
-
-void LedDriver::LEDOff() {
-    _pixels->clear();
+void LedDriver::startTimeout(int durationMs) {
+    _endTimeout = millis() + durationMs;
+    _pixels->setPixelColor(0, _pixels->Color(_color[0], _color[1], _color[2]));
     _pixels->show();
 }
+void LedDriver::tick(LedMode mode, int batteryLevel) {
+    unsigned long now = millis();
+
+    switch (mode) {
+        case LED_MODE_ON:
+            _pixels->show();
+            break;
+        case LED_MODE_OFF:
+            _pixels->clear();
+            break;
+        case LED_MODE_FADE:
+            LEDFade(now);
+            break;
+        case LED_MODE_BLINK:
+            LEDBlink(now);
+            break;
+        case LED_MODE_BOOT:
+            LEDBoot(now);
+            break;
+        case LED_MODE_BATTERY:
+            LEDBattery(now, batteryLevel);
+            break;
+        case LED_MODE_TIMEOUT:
+            LEDTimeout(now);
+            break;
+        default:
+            _pixels->clear();
+            break;
+    }
+    _pixels->show();
+}
+
+uint32_t LedDriver::getColor() { return _pixels->Color(_color[0], _color[1], _color[2]); }
 
 void LedDriver::LEDBoot(unsigned long now) {
     if (now - _lastUpdate > 10) {
@@ -60,55 +77,51 @@ void LedDriver::LEDBoot(unsigned long now) {
         if (_step >= 255) _fadeDirection = false;
         if (_step <= 0) _fadeDirection = true;
         _pixels->setPixelColor(0, _pixels->Color(_step / 2, _step, 0));
-        _pixels->show();
     }
 }
 
 void LedDriver::LEDBattery(unsigned long now, int batteryLevel) {
     if (batteryLevel > 75) {
-        _pixels->setPixelColor(0, _pixels->Color(0, 0, 255));
+        setColor(0, 255, 255);
     } else if (batteryLevel > 50) {
-        _pixels->setPixelColor(0, _pixels->Color(0, 255, 0));
+        setColor(0, 255, 0);
     } else if (batteryLevel > 25) {
-        _pixels->setPixelColor(0, _pixels->Color(255, 165, 0));
+        setColor(255, 165, 0);
     } else if (batteryLevel > 5) {
-        _pixels->setPixelColor(0, _pixels->Color(255, 0, 0));
+        setColor(255, 0, 0);
     } else {
-        if (now - _lastUpdate > 20) {
-            _lastUpdate = now;
-            _step += _fadeDirection ? 10 : -10;
-            if (_step >= 255) _fadeDirection = false;
-            if (_step <= 0) _fadeDirection = true;
-            _pixels->setPixelColor(0, _pixels->Color(_step, 0, 0));
-        }
-    }
-    _pixels->show();
-}
-
-void LedDriver::LEDScan(unsigned long now) {
-    int val = 0;
-
-    if (now - _lastUpdate > 50) {
-        _lastUpdate = now;
-        val         = random(50, 255);
-        _pixels->setPixelColor(0, _pixels->Color(0, val, val));
-        _pixels->show();
+        setColor(255, 0, 0);
+        LEDFade(now);
     }
 }
 
-void LedDriver::LEDAction(unsigned long now) {
-    if (now - _lastUpdate > 100) {
+void LedDriver::LEDBlink(unsigned long now) {
+    if (now - _lastUpdate > 500) {
         _lastUpdate = now;
         _step       = !_step;
-        if (_step)
-            _pixels->setPixelColor(0, _pixels->Color(255, 0, 0));
-        else
+        if (_step) {
+            _pixels->setPixelColor(0, _pixels->Color(_color[0], _color[1], _color[2]));
+        } else {
             _pixels->clear();
-        _pixels->show();
+        }
     }
 }
 
-void LedDriver::LEDManual(uint32_t color) {
-    _pixels->setPixelColor(0, color);
-    _pixels->show();
+void LedDriver::LEDFade(unsigned long now) {
+    if (now - _lastUpdate > 10) {
+        _lastUpdate = now;
+        _step += _fadeDirection ? 2 : -2;
+        if (_step >= 255) _fadeDirection = false;
+        if (_step <= 0) _fadeDirection = true;
+        uint8_t r = (_color[0] * _step) / 255;
+        uint8_t g = (_color[1] * _step) / 255;
+        uint8_t b = (_color[2] * _step) / 255;
+        _pixels->setPixelColor(0, _pixels->Color(r, g, b));
+    }
+}
+
+void LedDriver::LEDTimeout(unsigned long now) {
+    if (now >= _endTimeout) {
+        _pixels->clear();
+    }
 }

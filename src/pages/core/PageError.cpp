@@ -4,6 +4,11 @@ PageError::PageError() : errorMessage("Unknown Error"), selected(0) {}
 
 void PageError::setError(const char* msg) { errorMessage = msg; }
 
+void PageError::onEnter() {
+    setLedMode(LED_MODE_ON);
+    setLedColor(255, 75, 0);
+}
+
 void PageError::onEvent(AppEvent* event) {
     if (event->type == EVENT_BUTTON_CLICK) {
         switch (event->value) {

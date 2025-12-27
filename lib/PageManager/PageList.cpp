@@ -2,6 +2,8 @@
 
 PageList::PageList(const char* title) : _title(title), _selectedIndex(0), _scrollOffset(0) {}
 
+void PageList::onEnter() { setLedMode(LED_MODE_BATTERY, 100); }
+
 void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex, int actionID) {
     _items.push_back({name, target, iconIndex, actionID});
 }

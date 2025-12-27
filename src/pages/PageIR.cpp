@@ -8,11 +8,14 @@ PageIR::PageIR() {
 void PageIR::onEnter() {
     lastCodeType = "None";
     lastCodeHex  = "Waiting...";
+    setLedMode(LED_MODE_OFF);
+    setLedColor(255, 0, 0);
 }
 
 void PageIR::onEvent(AppEvent* event) {
     if (event->type == EVENT_IR_RX) {
         playSound(SOUND_SUCCESS);
+        setLedMode(LED_MODE_TIMEOUT, 100);
 
         char buffer[32];
         sprintf(buffer, "0x%08X", event->value);
