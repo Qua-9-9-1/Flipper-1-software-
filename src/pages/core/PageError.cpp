@@ -5,8 +5,8 @@ PageError::PageError() : errorMessage("Unknown Error"), selected(0) {}
 void PageError::setError(const char* msg) { errorMessage = msg; }
 
 void PageError::onEnter() {
-    setLedMode(LED_MODE_ON);
-    setLedColor(255, 75, 0);
+    setLEDMode(LED_MODE_ON);
+    setLEDColor(255, 75, 0);
 }
 
 void PageError::onEvent(AppEvent* event) {

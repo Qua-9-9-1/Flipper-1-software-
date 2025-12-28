@@ -5,6 +5,7 @@ LedDriver::LedDriver(uint8_t pin)
       _brightness(50),
       _lastUpdate(0),
       _color({0, 0, 0}),
+      _fadeSpeed(2),
       _step(0),
       _endTimeout(0),
       _fadeDirection(true) {
@@ -28,8 +29,9 @@ void LedDriver::setColor(uint8_t r, uint8_t g, uint8_t b) {
     _color[0] = r;
     _color[1] = g;
     _color[2] = b;
-    _pixels->setPixelColor(0, _pixels->Color(r, g, b));
 }
+
+void LedDriver::setFadeSpeed(uint8_t speed) { _fadeSpeed = speed; }
 
 void LedDriver::startTimeout(int durationMs) {
     _endTimeout = millis() + durationMs;
@@ -41,7 +43,7 @@ void LedDriver::tick(LedMode mode, int batteryLevel) {
 
     switch (mode) {
         case LED_MODE_ON:
-            _pixels->show();
+            _pixels->setPixelColor(0, _pixels->Color(_color[0], _color[1], _color[2]));
             break;
         case LED_MODE_OFF:
             _pixels->clear();
@@ -62,7 +64,6 @@ void LedDriver::tick(LedMode mode, int batteryLevel) {
             LEDTimeout(now);
             break;
         default:
-            _pixels->clear();
             break;
     }
     _pixels->show();
@@ -88,11 +89,13 @@ void LedDriver::LEDBattery(unsigned long now, int batteryLevel) {
     } else if (batteryLevel > 25) {
         setColor(255, 165, 0);
     } else if (batteryLevel > 5) {
-        setColor(255, 0, 0);
+        setColor(255, 40, 0);
     } else {
-        setColor(255, 0, 0);
+        setColor(255, 40, 0);
         LEDFade(now);
     }
+    if (batteryLevel > 5)
+        _pixels->setPixelColor(0, _pixels->Color(_color[0], _color[1], _color[2]));
 }
 
 void LedDriver::LEDBlink(unsigned long now) {
@@ -110,9 +113,14 @@ void LedDriver::LEDBlink(unsigned long now) {
 void LedDriver::LEDFade(unsigned long now) {
     if (now - _lastUpdate > 10) {
         _lastUpdate = now;
-        _step += _fadeDirection ? 2 : -2;
-        if (_step >= 255) _fadeDirection = false;
-        if (_step <= 0) _fadeDirection = true;
+        _step += _fadeDirection ? _fadeSpeed : -_fadeSpeed;
+        if (_step >= 255) {
+            _fadeDirection = false;
+            _step          = 255;
+        } else if (_step <= 0) {
+            _fadeDirection = true;
+            _step          = 0;
+        }
         uint8_t r = (_color[0] * _step) / 255;
         uint8_t g = (_color[1] * _step) / 255;
         uint8_t b = (_color[2] * _step) / 255;
@@ -123,5 +131,7 @@ void LedDriver::LEDFade(unsigned long now) {
 void LedDriver::LEDTimeout(unsigned long now) {
     if (now >= _endTimeout) {
         _pixels->clear();
+    } else {
+        _pixels->setPixelColor(0, _pixels->Color(_color[0], _color[1], _color[2]));
     }
 }

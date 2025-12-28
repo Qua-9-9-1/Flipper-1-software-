@@ -7,6 +7,7 @@
 #include "core/PageMainMenu.hpp"
 #include "managers/StorageManager.hpp"
 #include "settings/PageControlTest.hpp"
+#include "settings/PageLEDTest.hpp"
 
 namespace PageRegistry {
 extern PageMainMenu mainMenuPage;

@@ -41,7 +41,4 @@ class PageList : public IPage {
     std::vector<ListItem> _items;
     int                   _selectedIndex;
     int                   _scrollOffset;
-    const int             LINE_HEIGHT      = 12;
-    const int             HEADER_HEIGHT    = 16;
-    const int             ITEMS_PER_SCREEN = 4;
 };

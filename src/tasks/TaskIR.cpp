@@ -12,7 +12,6 @@ extern QueueHandle_t eventQueue;
 extern QueueHandle_t irQueue;
 
 void taskIR(void* pvParameters) {
-    Serial.println("[TaskIR] Starting Library Mode...");
     pinMode(PIN_IR_RX, INPUT_PULLUP);
     irrecv.enableIRIn();
     irsend.begin();

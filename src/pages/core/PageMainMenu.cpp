@@ -8,7 +8,7 @@ PageMainMenu::PageMainMenu() {
 
 PageMainMenu::~PageMainMenu() { _linkedPages.clear(); }
 
-void PageMainMenu::onEnter() { setLedMode(LED_MODE_BATTERY, 100); }
+void PageMainMenu::onEnter() { setLEDMode(LED_MODE_BATTERY, 100); }
 
 void PageMainMenu::onEvent(AppEvent* event) {
     int    index  = 0;

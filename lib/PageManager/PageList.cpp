@@ -1,8 +1,12 @@
 #include "PageList.hpp"
 
+const int LINE_HEIGHT      = 12;
+const int HEADER_HEIGHT    = 16;
+const int ITEMS_PER_SCREEN = 4;
+
 PageList::PageList(const char* title) : _title(title), _selectedIndex(0), _scrollOffset(0) {}
 
-void PageList::onEnter() { setLedMode(LED_MODE_BATTERY, 100); }
+void PageList::onEnter() { setLEDMode(LED_MODE_BATTERY, 100); }
 
 void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex, int actionID) {
     _items.push_back({name, target, iconIndex, actionID});

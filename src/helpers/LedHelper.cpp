@@ -2,7 +2,7 @@
 
 extern QueueHandle_t ledQueue;
 
-void setLedColor(uint8_t r, uint8_t g, uint8_t b) {
+void setLEDColor(uint8_t r, uint8_t g, uint8_t b) {
     LedCommand cmd;
 
     cmd.mode  = LED_MODE_SET_COLOR;
@@ -10,7 +10,23 @@ void setLedColor(uint8_t r, uint8_t g, uint8_t b) {
     xQueueSend(ledQueue, &cmd, 0);
 }
 
-void setLedMode(LedMode mode, int val) {
+void setLEDBrightness(uint8_t brightness) {
+    LedCommand cmd;
+
+    cmd.mode  = LED_MODE_SET_BRIGHTNESS;
+    cmd.value = brightness;
+    xQueueSend(ledQueue, &cmd, 0);
+}
+
+void setLEDFadeSpeed(uint8_t speed) {
+    LedCommand cmd;
+
+    cmd.mode  = LED_MODE_SET_FADE_SPEED;
+    cmd.value = speed;
+    xQueueSend(ledQueue, &cmd, 0);
+}
+
+void setLEDMode(LedMode mode, int val) {
     LedCommand cmd;
 
     cmd.mode  = mode;

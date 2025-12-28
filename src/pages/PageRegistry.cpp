@@ -8,10 +8,11 @@ PageError    errorPage;
 PageList        subGhzMenuPage("Sub-GHz");
 PageList        nfcMenuPage("NFC / RFID");
 PageList        IRPage("IR");
+PageIR          IRReceiverPage;
 PageList        badUSBPage("System / BadUSB");
 PageList        settingsPage("Settings");
 PageControlTest controlTestPage;
-PageIR          IRReceiverPage;
+PageLEDTest     ledTestPage;
 
 void setupPages() {
     subGhzMenuPage.addItem("Read / Sniff", nullptr);
@@ -44,9 +45,10 @@ void setupPages() {
 
     settingsPage.addItem("Display", nullptr);
     settingsPage.addItem("Sound", nullptr);
+    settingsPage.addItem("Controls Test", &controlTestPage);
+    settingsPage.addItem("LED Test", &ledTestPage);
     settingsPage.addItem("System Info", nullptr);
     settingsPage.addItem("About", nullptr);
-    settingsPage.addItem("Controls Test", &controlTestPage);
 
     mainMenuPage.addIcon(GHZ, &subGhzMenuPage);
     mainMenuPage.addIcon(NFC_RFID, &nfcMenuPage);

@@ -9,6 +9,7 @@ class LedDriver {
     void     init();
     void     setBrightness(uint8_t brightness);
     void     setColor(uint8_t r, uint8_t g, uint8_t b);
+    void     setFadeSpeed(uint8_t speed);
     void     startTimeout(int ms);
     void     tick(LedMode mode, int batteryLevel);
     uint32_t getColor();
@@ -22,8 +23,9 @@ class LedDriver {
 
     Adafruit_NeoPixel* _pixels;
     uint8_t            _pin;
-    int                _brightness;  // 0-255
+    uint8_t            _brightness;
     uint8_t            _color[3];
+    uint8_t            _fadeSpeed;
     unsigned long      _lastUpdate;
     int                _endTimeout;
     int                _step;
