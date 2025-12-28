@@ -8,7 +8,7 @@ LedDriver::LedDriver(uint8_t pin)
       _fadeSpeed(2),
       _step(0),
       _endTimeout(0),
-      _fadeDirection(true) {
+      _fadeDirection{true} {
     // LED mode GRB + 800KHz
     _pixels = new Adafruit_NeoPixel(1, pin, NEO_GRB + NEO_KHZ800);
 }

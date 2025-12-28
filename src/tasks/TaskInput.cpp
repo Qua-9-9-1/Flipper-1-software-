@@ -57,7 +57,7 @@ void taskInput(void* pvParameters) {
     btnOk.attachClick(clickOk);
     btnBack.attachClick(clickBack);
     btnBack.attachLongPressStart(backLongPress);
-    btnBack.setPressTicks(3000);
+    btnBack.setPressMs(3000);
 
     bool lastState[6] = {false};
     int pins[6] = {PIN_BTN_UP, PIN_BTN_DOWN, PIN_BTN_LEFT, PIN_BTN_RIGHT, PIN_BTN_OK, PIN_BTN_BACK};
