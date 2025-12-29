@@ -6,6 +6,7 @@
 #include "LedHelper.h"
 #include "Page.hpp"
 #include "PageManager.hpp"
+#include "ShutdownPopup.hpp"
 
 enum Icon { GHZ, NFC_RFID, IR, USB, SETTINGS, POWEROFF };
 
@@ -23,8 +24,4 @@ class PageMainMenu : public IPage {
 
     int                                 _pos[2];
     std::vector<std::pair<int, IPage*>> _linkedPages;
-    const unsigned char*                _icons[6] = {icon_ghz, icon_nfc_rfid, icon_ir,
-                                                     icon_usb, icon_settings, icon_poweroff};
-    const int                           COLS      = 4;
-    const int                           ROWS      = 2;
 };

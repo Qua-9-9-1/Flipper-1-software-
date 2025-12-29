@@ -1,5 +1,11 @@
 #include "PageMainMenu.hpp"
 
+const unsigned char* _icons[6] = {icon_ghz_bits, icon_nfc_rfid_bits, icon_ir_bits,
+                                  icon_usb_bits, icon_settings_bits, icon_shutdown_bits};
+
+const int COLS = 4;
+const int ROWS = 2;
+
 PageMainMenu::PageMainMenu() {
     _pos[0] = 0;
     _pos[1] = 0;
@@ -35,10 +41,6 @@ void PageMainMenu::onEvent(AppEvent* event) {
                     target = _linkedPages[index].second;
                     if (target != nullptr) PageManager::getInstance()->pushPage(target);
                 }
-                break;
-            }
-            case BTN_BACK: {
-                // TODO: Shutdown popup
                 break;
             }
         }
