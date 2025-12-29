@@ -21,6 +21,11 @@ class PageMainMenu : public IPage {
 
    private:
     void normalizePos();
+    void drawPageHeader(U8G2* u8g2, char const* title);
+    void drawBattery(U8G2* u8g2, int& cursorX);
+    void drawUSB(U8G2* u8g2, int& cursorX);
+    void drawSD(U8G2* u8g2, int& cursorX);
+    void drawSound(U8G2* u8g2, int& cursorX);
 
     int                                 _pos[2];
     std::vector<std::pair<int, IPage*>> _linkedPages;
