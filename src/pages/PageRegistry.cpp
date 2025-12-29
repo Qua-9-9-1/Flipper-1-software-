@@ -25,8 +25,8 @@ void setupPages() {
     IRPage.addItem("Universal Remote", nullptr);
     IRPage.addItem("Capture Signal", &IRReceiverPage);
     IRPage.addItem("Saved Signals", nullptr);
-    badUSBPage.addItem("Windows", nullptr, 0);
-    badUSBPage.addItem("macOS", nullptr, 1);
+    badUSBPage.addItemWithIcon("Windows", nullptr, 1);
+    badUSBPage.addItemWithIcon("macOS", nullptr, 2);
     badUSBPage.addItem("Linux", nullptr);
     // badUSBPage.addItem("Payloads", nullptr);
     // badUSBPage.addItem("Create Payload", nullptr);

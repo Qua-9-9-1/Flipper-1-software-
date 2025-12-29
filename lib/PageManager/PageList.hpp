@@ -27,7 +27,8 @@ class PageList : public IPage {
    public:
     PageList(const char* title);
     void onEnter() override;
-    void addItem(const char* name, IPage* target, uint8_t iconIndex = -1, int actionID = -1);
+    void addItem(const char* name, IPage* target, int actionID = -1);
+    void addItemWithIcon(const char* name, IPage* target, uint8_t iconIndex, int actionID = -1);
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;
 

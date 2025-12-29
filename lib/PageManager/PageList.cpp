@@ -8,7 +8,11 @@ PageList::PageList(const char* title) : _title(title), _selectedIndex(0), _scrol
 
 void PageList::onEnter() { setLEDMode(LED_MODE_BATTERY, 100); }
 
-void PageList::addItem(const char* name, IPage* target, uint8_t iconIndex, int actionID) {
+void PageList::addItem(const char* name, IPage* target, int actionID) {
+    _items.push_back({name, target, 0, actionID});
+}
+
+void PageList::addItemWithIcon(const char* name, IPage* target, uint8_t iconIndex, int actionID) {
     _items.push_back({name, target, iconIndex, actionID});
 }
 
@@ -44,6 +48,7 @@ void PageList::draw(U8G2* u8g2) {
     int yPos        = 0;
 
     u8g2->clearBuffer();
+    drawIcon(u8g2, _items[_selectedIndex].iconIndex);
     u8g2->setDrawColor(1);
     u8g2->drawBox(0, 0, 128, HEADER_HEIGHT);
     u8g2->setDrawColor(0);
@@ -80,9 +85,9 @@ void PageList::drawScrollbar(U8G2* u8g2) {
 }
 
 void PageList::drawIcon(U8G2* u8g2, uint8_t iconIndex) {
-    if (iconIndex >= sizeof(ListIcons) / sizeof(ListIcons[0]) || iconIndex < 0) return;
+    if (iconIndex > sizeof(ListIcons) / sizeof(ListIcons[0]) || iconIndex <= 0) return;
 
-    icon_list_t icon = ListIcons[iconIndex];
+    icon_list_t icon = ListIcons[iconIndex - 1];
     u8g2->drawXBMP(128 - icon.width - 2, 14, icon.width, icon.height, icon.bitmap);
 }
 
