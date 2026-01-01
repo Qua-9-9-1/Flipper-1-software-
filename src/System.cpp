@@ -46,6 +46,7 @@ void System::init() {
     ledQueue   = xQueueCreate(5, sizeof(LedCommand));
     audioQueue = xQueueCreate(10, sizeof(SoundType));
     irQueue    = xQueueCreate(5, sizeof(IrSignal));
+    BatteryHelper::init();
     createTestFiles();
 }
 

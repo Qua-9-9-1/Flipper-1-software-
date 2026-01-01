@@ -60,10 +60,18 @@
       "left": 145.8,
       "attrs": { "volume": "0.1" }
     },
-    { "type": "wokwi-microsd-card", "id": "sd1", "top": -38.17, "left": 124.87, "attrs": {} },
+    { "type": "wokwi-microsd-card", "id": "sd1", "top": -201.37, "left": 115.27, "attrs": {} },
     { "type": "wokwi-neopixel", "id": "rgb2", "top": 217.3, "left": 210.2, "attrs": {} },
     { "type": "wokwi-ir-receiver", "id": "ir1", "top": -10.95, "left": 363.02, "attrs": {} },
-    { "type": "wokwi-ir-remote", "id": "remote1", "top": 192, "left": 336, "attrs": {} }
+    { "type": "wokwi-ir-remote", "id": "remote1", "top": 192, "left": 336, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "potBat", "top": -135.7, "left": -192.2, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "vibro",
+      "top": -70.8,
+      "left": -236.2,
+      "attrs": { "color": "cyan", "label": "VIBRO" }
+    }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
@@ -91,12 +99,17 @@
     [ "rgb2:DIN", "esp:18", "green", [ "h18.4", "v-163.2" ] ],
     [ "sd1:SCK", "esp:17", "violet", [ "h-259.2", "v95.99" ] ],
     [ "sd1:DO", "esp:16", "gold", [ "h-240", "v105.71" ] ],
-    [ "sd1:DI", "esp:15", "blue", [ "h-211.2", "v28.71" ] ],
-    [ "sd1:CS", "esp:4", "green", [ "h-201.6", "v9.66" ] ],
+    [ "sd1:DI", "esp:15", "blue", [ "v28.71", "h-201.55" ] ],
+    [ "sd1:CS", "esp:4", "green", [ "v-19.14", "h-201.55" ] ],
     [ "esp:5", "sd1:CD", "#8f4814", [ "h-28.85", "v-76.8", "h211.2" ] ],
     [ "ir1:VCC", "esp:3V3.1", "red", [ "v-172.8", "h-441.6", "v76.8" ] ],
     [ "ir1:GND", "esp:GND.2", "black", [ "v-115.2", "h-307.2" ] ],
-    [ "ir1:DAT", "esp:47", "#8f4814", [ "v28.8", "h-115.2", "v28.8" ] ]
+    [ "ir1:DAT", "esp:47", "#8f4814", [ "v28.8", "h-115.2", "v28.8" ] ],
+    [ "potBat:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "potBat:VCC", "esp:3V3.1", "red", [ "v0" ] ],
+    [ "potBat:SIG", "esp:6", "blue", [ "v0" ] ],
+    [ "vibro:A", "esp:41", "cyan", [ "v67.2", "h297.6" ] ],
+    [ "vibro:C", "esp:GND.1", "black", [ "v0" ] ]
   ],
   "dependencies": {}
 }

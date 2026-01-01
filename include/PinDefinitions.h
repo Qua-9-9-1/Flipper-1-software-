@@ -28,3 +28,9 @@
 // IR
 #define PIN_IR_RX 47
 #define PIN_IR_TX 48
+
+// Battery
+#define PIN_BATTERY_ADC 6
+
+// Vibro Motor
+#define PIN_VIBRO 41

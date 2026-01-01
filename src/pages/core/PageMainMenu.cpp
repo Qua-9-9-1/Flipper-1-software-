@@ -113,9 +113,8 @@ void PageMainMenu::drawPageHeader(U8G2* u8g2, const char* title) {
 }
 
 void PageMainMenu::drawBattery(U8G2* u8g2, int& cursorX) {
-    // TODO : real battery level from BatteryHelper
-    int  batLevel   = 75;
-    bool isCharging = false;
+    int  batLevel   = BatteryHelper::getLevel();
+    bool isCharging = BatteryHelper::isCharging();
     int  width      = 0;
     cursorX -= 12;
 
@@ -127,7 +126,11 @@ void PageMainMenu::drawBattery(U8G2* u8g2, int& cursorX) {
         u8g2->drawLine(cursorX + 5, 6, cursorX + 3, 6);
         u8g2->drawLine(cursorX + 3, 6, cursorX + 6, 3);
     } else {
+        Serial.print("Battery Level: ");
+        Serial.println(batLevel);
         width = map(batLevel, 0, 100, 0, 6);
+        Serial.print("Battery Width: ");
+        Serial.println(width);
         if (width > 0) u8g2->drawBox(cursorX + 2, 5, width, 2);
     }
 }

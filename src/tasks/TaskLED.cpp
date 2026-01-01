@@ -23,12 +23,9 @@ void taskLed(void* pvParameters) {
                 currentMode = LED_MODE_TIMEOUT;
             } else {
                 currentMode = cmd.mode;
-                if (currentMode == LED_MODE_BATTERY && cmd.value > 0) {
-                    batteryLevel = cmd.value;
-                }
             }
         }
-        led.tick(currentMode, batteryLevel);
+        led.tick(currentMode, BatteryHelper::getLevel());
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }

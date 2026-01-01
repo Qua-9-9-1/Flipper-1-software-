@@ -16,6 +16,7 @@ struct IrSignal {
     uint16_t      address;
 };
 
+#include "BatteryHelper.h"
 #include "tasks/TaskAudio.h"
 #include "tasks/TaskInput.h"
 #include "tasks/TaskLED.h"

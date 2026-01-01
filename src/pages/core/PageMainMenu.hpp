@@ -3,6 +3,7 @@
 #include "AppEvents.h"
 #include "Assets.h"
 #include "AudioHelper.h"
+#include "BatteryHelper.h"
 #include "LedHelper.h"
 #include "Page.hpp"
 #include "PageManager.hpp"
