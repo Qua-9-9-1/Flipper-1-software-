@@ -12,6 +12,7 @@ class PageIR : public IPage {
     void draw(U8G2* u8g2) override;
 
    private:
-    String lastCodeType;
-    String lastCodeHex;
+    IrSignal _storedSignal;
+    bool     _hasSignal;
+    String   _protoName;
 };

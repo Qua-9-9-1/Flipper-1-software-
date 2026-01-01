@@ -5,6 +5,8 @@ QueueHandle_t ledQueue;
 QueueHandle_t audioQueue;
 QueueHandle_t irQueue;
 
+IrSignal System::lastCapturedSignal = {UNKNOWN, 0, 0, 0};
+
 void createTestFiles() {
     Serial.println("[System] Initializing Storage...");
 
@@ -43,7 +45,7 @@ void System::init() {
     eventQueue = xQueueCreate(20, sizeof(AppEvent));
     ledQueue   = xQueueCreate(5, sizeof(LedCommand));
     audioQueue = xQueueCreate(10, sizeof(SoundType));
-    irQueue    = xQueueCreate(5, sizeof(IrCommand));
+    irQueue    = xQueueCreate(5, sizeof(IrSignal));
     createTestFiles();
 }
 
