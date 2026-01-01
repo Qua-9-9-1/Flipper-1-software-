@@ -2,13 +2,13 @@
 
 #include "AppEvents.h"
 #include "Assets.h"
-#include "AudioHelper.h"
-#include "BatteryHelper.h"
-#include "HapticHelper.h"
-#include "LedHelper.h"
 #include "Page.hpp"
 #include "PageManager.hpp"
 #include "ShutdownPopup.hpp"
+#include "helpers/AudioHelper.h"
+#include "helpers/BatteryHelper.h"
+#include "helpers/HapticHelper.h"
+#include "helpers/LedHelper.h"
 
 enum Icon { GHZ, NFC_RFID, IR, USB, SETTINGS, POWEROFF };
 

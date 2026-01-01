@@ -1,8 +1,8 @@
 #pragma once
 #include "AppEvents.h"
-#include "BatteryHelper.h"
 #include "LedDriver.hpp"
 #include "PinDefinitions.h"
+#include "helpers/BatteryHelper.h"
 
 extern QueueHandle_t ledQueue;
 

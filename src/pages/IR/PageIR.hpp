@@ -1,8 +1,8 @@
 #pragma once
-#include "AudioHelper.h"
-#include "LedHelper.h"
 #include "Page.hpp"
 #include "System.hpp"
+#include "helpers/AudioHelper.h"
+#include "helpers/LedHelper.h"
 
 class PageIR : public IPage {
    public:

@@ -2,10 +2,10 @@
 #include <vector>
 
 #include "Assets.h"
-#include "AudioHelper.h"
-#include "LedHelper.h"
 #include "Page.hpp"
 #include "PageManager.hpp"
+#include "helpers/AudioHelper.h"
+#include "helpers/LedHelper.h"
 
 struct ListItem {
     const char* title;

@@ -1,4 +1,4 @@
-#include "AudioHelper.h"
+#include "helpers/AudioHelper.h"
 
 void playSound(SoundType sound) {
     if (audioQueue != NULL) {

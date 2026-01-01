@@ -1,4 +1,4 @@
-#include "HapticHelper.h"
+#include "helpers/HapticHelper.h"
 
 void playHaptic(int durationMs) {
     if (hapticQueue != NULL) {
