@@ -8,14 +8,12 @@ void taskUI(void* pvParameters) {
     IPage*        lastDrawnPage = nullptr;
     IPage*        realPage      = nullptr;
     bool          needRedraw    = true;
-    display.init();
+    AppEvent      e;
 
+    display.init();
     PageManager::getInstance()->pushPage(&PageRegistry::bootPage);
     // TODO : remove this line when boot page is complete
     PageManager::getInstance()->pushPage(&PageRegistry::mainMenuPage);
-
-    AppEvent e;
-
     while (true) {
         currentPage = PageManager::getInstance()->getCurrentPage();
         while (xQueueReceive(eventQueue, &e, 0)) {
