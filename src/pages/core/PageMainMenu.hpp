@@ -4,6 +4,7 @@
 #include "Assets.h"
 #include "AudioHelper.h"
 #include "BatteryHelper.h"
+#include "HapticHelper.h"
 #include "LedHelper.h"
 #include "Page.hpp"
 #include "PageManager.hpp"

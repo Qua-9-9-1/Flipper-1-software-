@@ -30,6 +30,11 @@ enum LedMode {
     LED_MODE_TIMEOUT
 };
 
+struct LedCommand {
+    LedMode mode;
+    int     value;
+};
+
 enum SoundType {
     SOUND_MUTE,
     SOUND_TICK,
@@ -40,13 +45,12 @@ enum SoundType {
     SOUND_MELODY_BOOT
 };
 
+struct HapticCommand {
+    int duration;
+};
+
 struct AppEvent {
     EventType type;
     int       value;
     int       extra;
-};
-
-struct LedCommand {
-    LedMode mode;
-    int     value;
 };

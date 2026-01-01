@@ -18,6 +18,7 @@ struct IrSignal {
 
 #include "BatteryHelper.h"
 #include "tasks/TaskAudio.h"
+#include "tasks/TaskHaptic.h"
 #include "tasks/TaskInput.h"
 #include "tasks/TaskLED.h"
 #include "tasks/TaskRadio.h"

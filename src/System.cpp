@@ -4,6 +4,7 @@ QueueHandle_t eventQueue;
 QueueHandle_t ledQueue;
 QueueHandle_t audioQueue;
 QueueHandle_t irQueue;
+QueueHandle_t hapticQueue;
 
 IrSignal System::lastCapturedSignal = {UNKNOWN, 0, 0, 0};
 
@@ -42,10 +43,11 @@ void createTestFiles() {
 
 void System::init() {
     Serial.begin(115200);
-    eventQueue = xQueueCreate(20, sizeof(AppEvent));
-    ledQueue   = xQueueCreate(5, sizeof(LedCommand));
-    audioQueue = xQueueCreate(10, sizeof(SoundType));
-    irQueue    = xQueueCreate(5, sizeof(IrSignal));
+    eventQueue  = xQueueCreate(20, sizeof(AppEvent));
+    ledQueue    = xQueueCreate(5, sizeof(LedCommand));
+    audioQueue  = xQueueCreate(10, sizeof(SoundType));
+    irQueue     = xQueueCreate(5, sizeof(IrSignal));
+    hapticQueue = xQueueCreate(5, sizeof(HapticCommand));
     BatteryHelper::init();
     createTestFiles();
 }
@@ -56,5 +58,6 @@ void System::startTasks() {
     xTaskCreate(taskLed, "LedTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskAudio, "AudioTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskIR, "IRTask", 4096, NULL, 5, NULL);
+    xTaskCreate(taskHaptic, "HapticTask", 2048, NULL, 1, NULL);
     // xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
 }

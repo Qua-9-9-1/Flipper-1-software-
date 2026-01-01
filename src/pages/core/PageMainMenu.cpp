@@ -24,6 +24,7 @@ void PageMainMenu::onEvent(AppEvent* event) {
 
     if (event->type == EVENT_BUTTON_CLICK) {
         playSound(SOUND_TICK);
+        playHaptic(50);
         switch (event->value) {
             case BTN_UP:
                 _pos[1]--;
