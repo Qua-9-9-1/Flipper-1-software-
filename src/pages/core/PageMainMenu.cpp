@@ -75,7 +75,6 @@ void PageMainMenu::draw(U8G2* u8g2) {
             u8g2->drawRFrame(x, y, MENU_ICON_DIM, MENU_ICON_DIM, 2);
         }
     }
-    u8g2->sendBuffer();
 }
 
 void PageMainMenu::addIcon(Icon icon, IPage* linkedPage) {

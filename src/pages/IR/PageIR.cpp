@@ -82,5 +82,4 @@ void PageIR::draw(U8G2* u8g2) {
         u8g2->setDrawColor(0);
         u8g2->drawStr(25, 60, "[OK] REPLAY");
     }
-    u8g2->sendBuffer();
 }

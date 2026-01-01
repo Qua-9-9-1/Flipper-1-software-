@@ -65,7 +65,6 @@ void PageList::draw(U8G2* u8g2) {
         u8g2->drawStr(10, yPos + 10, _items[i].title);
     }
     drawScrollbar(u8g2);
-    u8g2->sendBuffer();
 }
 
 void PageList::drawScrollbar(U8G2* u8g2) {
