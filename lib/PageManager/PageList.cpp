@@ -106,7 +106,6 @@ void PageList::handleSelection(ListItem item) {
     if (item.targetPage) {
         PageManager::getInstance()->pushPage(item.targetPage);
     } else {
-        // action handling
         Serial.print("Action on item: ");
         Serial.println(item.title);
         // BadUsbManager::getInstance()->runScript(item.title);

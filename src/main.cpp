@@ -22,7 +22,4 @@ void setup() {
     }
 }
 
-void loop() {
-    // Delete the default loop task as we are using FreeRTOS tasks
-    vTaskDelete(NULL);
-}
+void loop() { vTaskDelete(NULL); }

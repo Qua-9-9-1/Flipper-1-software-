@@ -10,7 +10,8 @@ class PageManager {
     void                pushPage(IPage* page);
     void                popPage();
     IPage*              getCurrentPage();
-    void                switchPage(IPage* page);  // Go to page whithout history
+    void                switchPage(IPage* page);
+
    private:
     std::vector<IPage*> _pageStack;
     static PageManager* _instance;
