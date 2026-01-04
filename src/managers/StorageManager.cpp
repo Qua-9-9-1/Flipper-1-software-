@@ -21,7 +21,7 @@ bool StorageManager::init() {
     }
 #endif
     _spi = new SPIClass(HSPI);
-    _spi->begin(PIN_SD_SCK, PIN_SD_MISO, PIN_SD_MOSI, PIN_SD_CS);
+    _spi->begin(PIN_SPI_SCK, PIN_SPI_MISO, PIN_SPI_MOSI, PIN_SD_CS);
     if (!SD.begin(PIN_SD_CS, *_spi)) {
         Serial.println("[Storage] SD Mount Failed!");
         _isMounted = false;

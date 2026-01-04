@@ -3,7 +3,7 @@
 ShutdownPopup shutdownPopup;
 
 void taskUI(void* pvParameters) {
-    DisplayDriver display(PIN_OLED_SDA, PIN_OLED_SCL);
+    DisplayDriver display(PIN_I2C_SDA, PIN_I2C_SCL);
     IPage*        currentPage   = nullptr;
     IPage*        lastDrawnPage = nullptr;
     IPage*        realPage      = nullptr;
