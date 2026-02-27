@@ -71,6 +71,13 @@
       "top": -70.8,
       "left": -236.2,
       "attrs": { "color": "cyan", "label": "VIBRO" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -166.8,
+      "left": 378.2,
+      "attrs": { "color": "red" }
     }
   ],
   "connections": [
@@ -109,7 +116,9 @@
     [ "potBat:VCC", "esp:3V3.1", "red", [ "v0" ] ],
     [ "potBat:SIG", "esp:6", "blue", [ "v0" ] ],
     [ "vibro:A", "esp:41", "cyan", [ "v67.2", "h297.6" ] ],
-    [ "vibro:C", "esp:GND.1", "black", [ "v0" ] ]
+    [ "vibro:C", "esp:GND.1", "black", [ "v0" ] ],
+    [ "esp:48", "led1:A", "green", [ "v-211.2", "h316.8" ] ],
+    [ "esp:GND.2", "led1:C", "black", [ "v-86.4", "h306.8" ] ]
   ],
   "dependencies": {}
 }
