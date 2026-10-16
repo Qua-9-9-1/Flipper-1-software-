@@ -21,7 +21,7 @@ struct ItemOption {
 };
 
 struct ListItem {
-    const char*             title;
+    char                    title[32];
     std::vector<ItemOption> options;
     uint8_t                 iconIndex;
     int                     currentOptionIndex;
@@ -42,6 +42,8 @@ class PageList : public IPage {
     void onEnter() override;
     void addItem(const char* name, std::vector<ItemOption> options = {});
     void addItemWithIcon(const char* name, std::vector<ItemOption> options = {}, uint8_t iconIndex = 0);
+    void updateItemTitle(int index, const char* newTitle);
+    void clearItems();
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;
 

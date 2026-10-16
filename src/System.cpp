@@ -10,35 +10,12 @@ IrSignal System::lastCapturedSignal = {UNKNOWN, 0, 0, 0};
 
 void createTestFiles() {
     Serial.println("[System] Initializing Storage...");
-
     if (StorageManager::getInstance()->init()) {
         Serial.println("[System] Storage Init SUCCESS.");
-
-        if (!SD.exists("/Flipper-1/badusb")) {
-            Serial.println("[System] Creating missing folder /Flipper-1/badusb");
-            SD.mkdir("/Flipper-1/badusb");
-        }
-
-        Serial.println("[System] Writing demo files...");
-        bool s1 = StorageManager::getInstance()->writeFile("/Flipper-1/badusb/demo.txt",
-                                                           "STRING Hello World");
-        if (s1)
-            Serial.println("[System] Wrote demo.txt: OK");
-        else
-            Serial.println("[System] Wrote demo.txt: FAILED");
-
-        bool s2 = StorageManager::getInstance()->writeFile("/Flipper-1/badusb/hack.txt",
-                                                           "GUI r\nDELAY 200\nSTRING cmd");
-        if (s2)
-            Serial.println("[System] Wrote hack.txt: OK");
-        else
-            Serial.println("[System] Wrote hack.txt: FAILED");
-
     } else {
-        Serial.println("[System] CRITICAL: Storage Init FAILED. Check Pins!");
+        Serial.println("[System] WARNING: Storage Init Failed (No SD card).");
     }
-
-    Serial.println("System Initialized.");
+    Serial.println("[System] System Initialized.");
 }
 
 void System::init() {
@@ -59,5 +36,4 @@ void System::startTasks() {
     xTaskCreate(taskAudio, "AudioTask", 2048, NULL, 1, NULL);
     xTaskCreate(taskIR, "IRTask", 4096, NULL, 5, NULL);
     xTaskCreate(taskHaptic, "HapticTask", 2048, NULL, 1, NULL);
-    // xTaskCreate(taskDummyRadio, "RadioTask", 2048, NULL, 1, NULL);
 }

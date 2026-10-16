@@ -2,21 +2,23 @@
 
 #include <string.h>
 
-TextInputPage::TextInputPage(const char* title, char* buffer, int maxLen)
+TextInputPage::TextInputPage(const char* title, char* buffer, int maxLen, SaveCallback onSave)
     : _title(title),
       _buffer(buffer),
       _maxLen(maxLen),
       _cursorPos(0),
+      _onSave(onSave),
       _showPopup(false),
       _popupYesSelected(true) {
     _backupBuffer[0] = '\0';
 }
 
-void TextInputPage::setTarget(const char* title, char* buffer, int maxLen) {
+void TextInputPage::setTarget(const char* title, char* buffer, int maxLen, SaveCallback onSave) {
     _title            = title;
     _buffer           = buffer;
     _maxLen           = maxLen;
     _cursorPos        = 0;
+    _onSave           = onSave;
     _showPopup        = false;
     _popupYesSelected = true;
     _backupBuffer[0]  = '\0';
@@ -111,6 +113,9 @@ void TextInputPage::onEvent(AppEvent* event) {
                             }
                             _buffer[end + 1] = '\0';
                         }
+                        if (_onSave && _buffer) {
+                            _onSave(_buffer);
+                        }
                         PageManager::getInstance()->popPage();
                     } else {
                         if (_buffer) {
@@ -158,7 +163,7 @@ void TextInputPage::draw(U8G2* u8g2) {
         u8g2->setDrawColor(1);
         u8g2->drawFrame(14, 16, 100, 42);
 
-        u8g2->drawStr(28, 30, "Save?");
+        u8g2->drawStr(48, 30, "Save?");
 
         if (_popupYesSelected) u8g2->drawBox(20, 40, 32, 14);
         u8g2->setDrawColor(_popupYesSelected ? 0 : 1);

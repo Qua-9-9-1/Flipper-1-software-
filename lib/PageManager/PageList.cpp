@@ -9,11 +9,36 @@ PageList::PageList(const char* title) : _title(title), _selectedIndex(0), _scrol
 void PageList::onEnter() { setLEDMode(LED_MODE_BATTERY, 100); }
 
 void PageList::addItem(const char* name, std::vector<ItemOption> options) {
-    _items.push_back({name, options, 0, 0});
+    ListItem item;
+    strncpy(item.title, name, sizeof(item.title) - 1);
+    item.title[sizeof(item.title) - 1] = '\0';
+    item.options = options;
+    item.iconIndex = 0;
+    item.currentOptionIndex = 0;
+    _items.push_back(item);
 }
 
 void PageList::addItemWithIcon(const char* name, std::vector<ItemOption> options, uint8_t iconIndex) {
-    _items.push_back({name, options, iconIndex, 0});
+    ListItem item;
+    strncpy(item.title, name, sizeof(item.title) - 1);
+    item.title[sizeof(item.title) - 1] = '\0';
+    item.options = options;
+    item.iconIndex = iconIndex;
+    item.currentOptionIndex = 0;
+    _items.push_back(item);
+}
+
+void PageList::updateItemTitle(int index, const char* newTitle) {
+    if (index >= 0 && index < (int)_items.size() && newTitle) {
+        strncpy(_items[index].title, newTitle, sizeof(_items[index].title) - 1);
+        _items[index].title[sizeof(_items[index].title) - 1] = '\0';
+    }
+}
+
+void PageList::clearItems() {
+    _items.clear();
+    _selectedIndex = 0;
+    _scrollOffset = 0;
 }
 
 void PageList::onEvent(AppEvent* event) {
@@ -49,7 +74,7 @@ void PageList::onEvent(AppEvent* event) {
                         handleSelection(_items[_selectedIndex].options[optIdx]);
                     }
                 } else {
-                    Serial.println("[PageList] No action assigned to this item.");
+                    Serial.println("[PageList] No action assigned to this item");
                 }
                 break;
             case BTN_BACK:
@@ -66,50 +91,43 @@ void PageList::onEvent(AppEvent* event) {
 }
 
 void PageList::draw(U8G2* u8g2) {
-    int endIndex    = _scrollOffset + ITEMS_PER_SCREEN;
+    int endIndex    = _scrollOffset + ITEMS_PER_SCREEN + 1;
     int visualIndex = 0;
     int yPos        = 0;
 
     u8g2->clearBuffer();
-    
-    if (_items.size() > 0) {
+    if (!_items.empty() && _selectedIndex >= 0 && _selectedIndex < (int)_items.size()) {
         drawIcon(u8g2, _items[_selectedIndex].iconIndex);
+    }
+    const char* headerText = _title;
+    char optBuffer[40];
+    if (!_items.empty() && _selectedIndex >= 0 && _selectedIndex < (int)_items.size()) {
+        const auto& curItem = _items[_selectedIndex];
+        if (curItem.options.size() > 1) {
+            int optIdx = curItem.currentOptionIndex;
+            if (optIdx >= 0 && optIdx < (int)curItem.options.size()) {
+                snprintf(optBuffer, sizeof(optBuffer), "< %s >", curItem.options[optIdx].name);
+                headerText = optBuffer;
+            }
+        }
     }
 
     u8g2->setDrawColor(1);
     u8g2->drawBox(0, 0, 128, HEADER_HEIGHT);
     u8g2->setDrawColor(0);
     u8g2->setFont(u8g2_font_6x10_tf);
-
-    if (_items.size() > 0 && _items[_selectedIndex].options.size() > 1) {
-        int optIdx = _items[_selectedIndex].currentOptionIndex;
-        const char* optName = _items[_selectedIndex].options[optIdx].name;
-        
-        int textWidth = u8g2->getStrWidth(optName);
-        int startX = (128 - textWidth) / 2;
-        
-        u8g2->drawStr(startX - 12, (HEADER_HEIGHT + 8) / 2, "<");
-        u8g2->drawStr(startX, (HEADER_HEIGHT + 8) / 2, optName);
-        u8g2->drawStr(startX + textWidth + 6, (HEADER_HEIGHT + 8) / 2, ">");
-    } 
-    else {
-        u8g2->drawStr(4, (HEADER_HEIGHT + 8) / 2, _title);
-    }
+    u8g2->drawStr(4, (HEADER_HEIGHT + 8) / 2, headerText);
 
     u8g2->setDrawColor(1);
-    if (endIndex > _items.size()) endIndex = _items.size();
-    
+    if (endIndex > (int)_items.size()) endIndex = _items.size();
     for (int i = _scrollOffset; i < endIndex; i++) {
         visualIndex = i - _scrollOffset;
         yPos        = HEADER_HEIGHT + (visualIndex * LINE_HEIGHT);
-        
         if (i == _selectedIndex) {
             u8g2->drawStr(0, yPos + 10, ">");
         }
-        
         u8g2->drawStr(10, yPos + 10, _items[i].title);
     }
-    
     drawScrollbar(u8g2);
 }
 
@@ -156,6 +174,6 @@ void PageList::handleSelection(const ItemOption& item) {
     if (item.action) {
         item.action();
     } else {
-        Serial.println("[PageList] No action assigned to this option.");
+        Serial.println("[PageList] No action assigned to this option");
     }
 }

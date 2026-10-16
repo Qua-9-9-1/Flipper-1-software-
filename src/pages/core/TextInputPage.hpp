@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 #include "Page.hpp"
 #include "PageManager.hpp"
@@ -6,9 +7,11 @@
 
 class TextInputPage : public IPage {
    public:
-    TextInputPage(const char* title = "Edit", char* buffer = nullptr, int maxLen = 0);
+    using SaveCallback = std::function<void(const char*)>;
 
-    void setTarget(const char* title, char* buffer, int maxLen);
+    TextInputPage(const char* title = "Edit", char* buffer = nullptr, int maxLen = 0, SaveCallback onSave = nullptr);
+
+    void setTarget(const char* title, char* buffer, int maxLen, SaveCallback onSave = nullptr);
     void onEnter() override;
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;
@@ -16,11 +19,12 @@ class TextInputPage : public IPage {
    private:
     char cycleChar(char current, int direction);
 
-    const char* _title;
-    char*       _buffer;
-    int         _maxLen;
-    int         _cursorPos;
-    char        _backupBuffer[32];
+    const char*  _title;
+    char*        _buffer;
+    int          _maxLen;
+    int          _cursorPos;
+    char         _backupBuffer[32];
+    SaveCallback _onSave;
 
     bool _showPopup;
     bool _popupYesSelected;
