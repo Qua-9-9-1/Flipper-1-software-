@@ -16,15 +16,16 @@ PageLEDTest     ledTestPage;
 
 void setupPages() {
     subGhzMenuPage.addItem("Read / Sniff", nullptr);
-    subGhzMenuPage.addItem("Saved", nullptr);
+    subGhzMenuPage.addItem("Signals", nullptr);
     subGhzMenuPage.addItem("Add Manually", nullptr);
 
     nfcMenuPage.addItem("Read Card", nullptr);
-    nfcMenuPage.addItem("Emulate", nullptr);
+    nfcMenuPage.addItem("Cards", nullptr);
 
+    IRPage.addItem("Read", &IRReceiverPage);
+    IRPage.addItem("Signals", nullptr);
     IRPage.addItem("Universal Remote", nullptr);
-    IRPage.addItem("Capture Signal", &IRReceiverPage);
-    IRPage.addItem("Saved Signals", nullptr);
+
     badUSBPage.addItemWithIcon("Windows", nullptr, 1);
     badUSBPage.addItemWithIcon("macOS", nullptr, 2);
     badUSBPage.addItem("Linux", nullptr);
