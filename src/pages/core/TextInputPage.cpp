@@ -8,11 +8,31 @@ TextInputPage::TextInputPage(const char* title, char* buffer, int maxLen)
       _maxLen(maxLen),
       _cursorPos(0),
       _showPopup(false),
-      _popupYesSelected(true) {}
+      _popupYesSelected(true) {
+    _backupBuffer[0] = '\0';
+}
+
+void TextInputPage::setTarget(const char* title, char* buffer, int maxLen) {
+    _title            = title;
+    _buffer           = buffer;
+    _maxLen           = maxLen;
+    _cursorPos        = 0;
+    _showPopup        = false;
+    _popupYesSelected = true;
+    _backupBuffer[0]  = '\0';
+}
 
 void TextInputPage::onEnter() {
-    if (_buffer[0] == '\0') {
-        for (int i = 0; i < _maxLen - 1; i++) {
+    if (_buffer && _maxLen > 1) {
+        int copyLen = _maxLen - 1;
+        if (copyLen >= (int)sizeof(_backupBuffer)) {
+            copyLen = sizeof(_backupBuffer) - 1;
+        }
+        strncpy(_backupBuffer, _buffer, copyLen);
+        _backupBuffer[copyLen] = '\0';
+
+        int len = strlen(_buffer);
+        for (int i = len; i < _maxLen - 1; i++) {
             _buffer[i] = ' ';
         }
         _buffer[_maxLen - 1] = '\0';
@@ -66,6 +86,10 @@ void TextInputPage::onEvent(AppEvent* event) {
                     _popupYesSelected = true;
                     break;
                 case BTN_BACK:
+                    if (_buffer) {
+                        strncpy(_buffer, _backupBuffer, _maxLen - 1);
+                        _buffer[_maxLen - 1] = '\0';
+                    }
                     PageManager::getInstance()->popPage();
                     break;
             }
@@ -80,9 +104,20 @@ void TextInputPage::onEvent(AppEvent* event) {
                     break;
                 case BTN_OK:
                     if (_popupYesSelected) {
+                        if (_buffer && _maxLen > 1) {
+                            int end = _maxLen - 2;
+                            while (end >= 0 && _buffer[end] == ' ') {
+                                end--;
+                            }
+                            _buffer[end + 1] = '\0';
+                        }
                         PageManager::getInstance()->popPage();
                     } else {
-                        _showPopup = false;
+                        if (_buffer) {
+                            strncpy(_buffer, _backupBuffer, _maxLen - 1);
+                            _buffer[_maxLen - 1] = '\0';
+                        }
+                        PageManager::getInstance()->popPage();
                     }
                     break;
                 case BTN_BACK:
@@ -123,15 +158,15 @@ void TextInputPage::draw(U8G2* u8g2) {
         u8g2->setDrawColor(1);
         u8g2->drawFrame(14, 16, 100, 42);
 
-        u8g2->drawStr(28, 30, "Sauvegarder?");
+        u8g2->drawStr(28, 30, "Save?");
 
         if (_popupYesSelected) u8g2->drawBox(20, 40, 32, 14);
         u8g2->setDrawColor(_popupYesSelected ? 0 : 1);
-        u8g2->drawStr(27, 51, "Oui");
+        u8g2->drawStr(27, 51, "Yes");
 
         u8g2->setDrawColor(1);
         if (!_popupYesSelected) u8g2->drawBox(76, 40, 32, 14);
         u8g2->setDrawColor(!_popupYesSelected ? 0 : 1);
-        u8g2->drawStr(83, 51, "Non");
+        u8g2->drawStr(83, 51, "No");
     }
 }

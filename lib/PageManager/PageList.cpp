@@ -66,44 +66,50 @@ void PageList::onEvent(AppEvent* event) {
 }
 
 void PageList::draw(U8G2* u8g2) {
-    int endIndex    = _scrollOffset + ITEMS_PER_SCREEN + 1;
+    int endIndex    = _scrollOffset + ITEMS_PER_SCREEN;
     int visualIndex = 0;
     int yPos        = 0;
 
     u8g2->clearBuffer();
-    if (!_items.empty() && _selectedIndex >= 0 && _selectedIndex < (int)_items.size()) {
+    
+    if (_items.size() > 0) {
         drawIcon(u8g2, _items[_selectedIndex].iconIndex);
     }
+
     u8g2->setDrawColor(1);
     u8g2->drawBox(0, 0, 128, HEADER_HEIGHT);
     u8g2->setDrawColor(0);
     u8g2->setFont(u8g2_font_6x10_tf);
-    u8g2->drawStr(4, (HEADER_HEIGHT + 8) / 2, _title);
+
+    if (_items.size() > 0 && _items[_selectedIndex].options.size() > 1) {
+        int optIdx = _items[_selectedIndex].currentOptionIndex;
+        const char* optName = _items[_selectedIndex].options[optIdx].name;
+        
+        int textWidth = u8g2->getStrWidth(optName);
+        int startX = (128 - textWidth) / 2;
+        
+        u8g2->drawStr(startX - 12, (HEADER_HEIGHT + 8) / 2, "<");
+        u8g2->drawStr(startX, (HEADER_HEIGHT + 8) / 2, optName);
+        u8g2->drawStr(startX + textWidth + 6, (HEADER_HEIGHT + 8) / 2, ">");
+    } 
+    else {
+        u8g2->drawStr(4, (HEADER_HEIGHT + 8) / 2, _title);
+    }
 
     u8g2->setDrawColor(1);
-    if (endIndex > (int)_items.size()) endIndex = _items.size();
+    if (endIndex > _items.size()) endIndex = _items.size();
+    
     for (int i = _scrollOffset; i < endIndex; i++) {
         visualIndex = i - _scrollOffset;
         yPos        = HEADER_HEIGHT + (visualIndex * LINE_HEIGHT);
+        
         if (i == _selectedIndex) {
             u8g2->drawStr(0, yPos + 10, ">");
-            if (_items[i].options.size() > 1) {
-                int optIdx = _items[i].currentOptionIndex;
-                if (optIdx >= 0 && optIdx < (int)_items[i].options.size()) {
-                    const char* optName = _items[i].options[optIdx].name;
-                    if (optName && optName[0] != '\0') {
-                        int textWidth = u8g2->getStrWidth(optName);
-                        int boxX = 120 - textWidth - 20; 
-                        
-                        u8g2->drawStr(boxX, yPos + 10, "<");
-                        u8g2->drawStr(boxX + 8, yPos + 10, optName);
-                        u8g2->drawStr(boxX + 8 + textWidth + 4, yPos + 10, ">");
-                    }
-                }
-            }
         }
+        
         u8g2->drawStr(10, yPos + 10, _items[i].title);
     }
+    
     drawScrollbar(u8g2);
 }
 
