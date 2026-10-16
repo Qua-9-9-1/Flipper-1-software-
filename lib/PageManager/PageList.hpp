@@ -1,17 +1,30 @@
 #pragma once
+#include <functional>
 #include <vector>
 
 #include "Assets.h"
 #include "Page.hpp"
+#include "PageActions.hpp"
 #include "PageManager.hpp"
 #include "helpers/AudioHelper.h"
 #include "helpers/LedHelper.h"
 
+struct ItemOption {
+    const char* name;
+    PageAction  action;
+
+    ItemOption(const char* optName = "", PageAction act = nullptr)
+        : name(optName), action(act) {}
+
+    ItemOption(PageAction act)
+        : name(""), action(act) {}
+};
+
 struct ListItem {
-    const char* title;
-    IPage*      targetPage;
-    uint8_t     iconIndex;
-    int         actionID;
+    const char*             title;
+    std::vector<ItemOption> options;
+    uint8_t                 iconIndex;
+    int                     currentOptionIndex;
 };
 
 struct icon_list_t {
@@ -27,8 +40,8 @@ class PageList : public IPage {
    public:
     PageList(const char* title);
     void onEnter() override;
-    void addItem(const char* name, IPage* target, int actionID = -1);
-    void addItemWithIcon(const char* name, IPage* target, uint8_t iconIndex, int actionID = -1);
+    void addItem(const char* name, std::vector<ItemOption> options = {});
+    void addItemWithIcon(const char* name, std::vector<ItemOption> options = {}, uint8_t iconIndex = 0);
     void onEvent(AppEvent* event) override;
     void draw(U8G2* u8g2) override;
 
@@ -36,7 +49,7 @@ class PageList : public IPage {
     void normalizeCursor();
     void drawIcon(U8G2* u8g2, uint8_t iconIndex);
     void drawScrollbar(U8G2* u8g2);
-    void handleSelection(ListItem item);
+    void handleSelection(const ItemOption& item);
 
     const char*           _title;
     std::vector<ListItem> _items;
