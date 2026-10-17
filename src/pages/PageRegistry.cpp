@@ -22,6 +22,7 @@ PageList        settingsPage("Settings");
 PageControlTest controlTestPage;
 PageLEDTest     ledTestPage;
 TextInputPage   textInputPage("Rename Signal", nullptr, 0);
+PageDetails     detailsPage("Details");
 
 static char subGhzSignal1[16] = "Garage Door";
 static char subGhzSignal2[16] = "Car Key 433";
@@ -57,6 +58,12 @@ void setupPages() {
             }),
             ItemOption("Details", []() {
                 Serial.printf("[Sub-GHz] Details for %s: Freq=433.92MHz | Modulation=FSK_PULSE | Key=A1B2C3\n", subGhzSignal1);
+                detailsPage.show("Sub-GHz Info", {
+                    String("Name: ") + subGhzSignal1,
+                    "Freq: 433.92 MHz",
+                    "Mod: FSK_PULSE",
+                    "Key: A1B2C3"
+                });
             })
         });
 
@@ -78,6 +85,12 @@ void setupPages() {
             }),
             ItemOption("Details", []() {
                 Serial.printf("[Sub-GHz] Details for %s: Freq=433.92MHz | Protocol=KeeLoq | Seed=987654\n", subGhzSignal2);
+                detailsPage.show("Sub-GHz Info", {
+                    String("Name: ") + subGhzSignal2,
+                    "Freq: 433.92 MHz",
+                    "Proto: KeeLoq",
+                    "Seed: 987654"
+                });
             })
         });
 
@@ -99,6 +112,12 @@ void setupPages() {
             }),
             ItemOption("Details", []() {
                 Serial.printf("[Sub-GHz] Details for %s: Freq=868.35MHz | Protocol=Came | ID=55AA12\n", subGhzSignal3);
+                detailsPage.show("Sub-GHz Info", {
+                    String("Name: ") + subGhzSignal3,
+                    "Freq: 868.35 MHz",
+                    "Proto: Came",
+                    "ID: 55AA12"
+                });
             })
         });
     } else {
@@ -139,6 +158,14 @@ void setupPages() {
                         Serial.printf("[Sub-GHz] Details: %s | Freq: %lu Hz | Preset: %s | Protocol: %s | Bits: %d | Key: %s\n",
                                       fName.c_str(), (unsigned long)file.frequency, file.preset.c_str(), file.protocol.c_str(),
                                       (int)file.bits, file.key.c_str());
+                        detailsPage.show("Sub-GHz Info", {
+                            String("File: ") + fName,
+                            String("Freq: ") + String((unsigned long)file.frequency) + " Hz",
+                            String("Preset: ") + file.preset,
+                            String("Proto: ") + file.protocol,
+                            String("Bits: ") + String((int)file.bits),
+                            String("Key: ") + file.key
+                        });
                     }
                 })
             });
@@ -157,6 +184,12 @@ void setupPages() {
             }),
             ItemOption("Details", []() {
                 Serial.println("[NFC] Details: Type=ISO14443A, UID=04 A1 B2 C3 D4 E5 F6");
+                detailsPage.show("NFC Info", {
+                    "Name: Badge_Imm.",
+                    "Type: ISO14443A",
+                    "UID: 04 A1 B2 C3",
+                    "     D4 E5 F6"
+                });
             })
         });
     } else {
@@ -193,6 +226,13 @@ void setupPages() {
                     if (StorageManager::getInstance()->loadNfc(fName.c_str(), file)) {
                         Serial.printf("[NFC] Details: %s | Type: %s | UID: %s | ATQA: %s | SAK: %s\n",
                                       fName.c_str(), file.deviceType.c_str(), file.uid.c_str(), file.atqa.c_str(), file.sak.c_str());
+                        detailsPage.show("NFC Info", {
+                            String("File: ") + fName,
+                            String("Type: ") + file.deviceType,
+                            String("UID: ") + file.uid,
+                            String("ATQA: ") + file.atqa,
+                            String("SAK: ") + file.sak
+                        });
                     }
                 })
             });
@@ -210,6 +250,12 @@ void setupPages() {
             }),
             ItemOption("Details", []() {
                 Serial.println("[IR] Details: TV_Power | Proto: NEC | Bits: 32");
+                detailsPage.show("IR Info", {
+                    "Name: TV_Power",
+                    "Proto: NEC",
+                    "Bits: 32",
+                    "Cmd: 0x00FFA15D"
+                });
             })
         });
     } else {
@@ -246,8 +292,19 @@ void setupPages() {
                 ItemOption("Details", [fName]() {
                     IrFile file;
                     if (StorageManager::getInstance()->loadIr(fName.c_str(), file)) {
-                        Serial.printf("[IR] Details: %s | Proto: %s | Addr: 0x%lX | Cmd: 0x%llX | Bits: %d\n",
-                                      fName.c_str(), file.protocol.c_str(), (unsigned long)file.address, file.command, (int)file.bits);
+                        char addrBuf[16];
+                        char cmdBuf[24];
+                        snprintf(addrBuf, sizeof(addrBuf), "0x%lX", (unsigned long)file.address);
+                        snprintf(cmdBuf, sizeof(cmdBuf), "0x%llX", file.command);
+                        Serial.printf("[IR] Details: %s | Proto: %s | Addr: %s | Cmd: %s | Bits: %d\n",
+                                      fName.c_str(), file.protocol.c_str(), addrBuf, cmdBuf, (int)file.bits);
+                        detailsPage.show("IR Info", {
+                            String("File: ") + fName,
+                            String("Proto: ") + file.protocol,
+                            String("Addr: ") + addrBuf,
+                            String("Cmd: ") + cmdBuf,
+                            String("Bits: ") + String((int)file.bits)
+                        });
                     }
                 })
             });
@@ -280,8 +337,28 @@ void setupPages() {
     settingsPage.addItem("Sound");
     settingsPage.addItem("Controls Test", {PageActions::openPage(&controlTestPage)});
     settingsPage.addItem("LED Test", {PageActions::openPage(&ledTestPage)});
-    settingsPage.addItem("System Info");
-    settingsPage.addItem("About");
+    settingsPage.addItem("System Info", {
+        ItemOption("Open", []() {
+            detailsPage.show("System Info", {
+                "Model: Flipper-1",
+                "Chip: ESP32-S3",
+                "Flash: 8MB QSPI",
+                "PSRAM: 8MB OPI",
+                "RTOS: FreeRTOS",
+                "Freq: 240 MHz"
+            });
+        })
+    });
+    settingsPage.addItem("About", {
+        ItemOption("Open", []() {
+            detailsPage.show("About", {
+                "Flipper-1 v1.0",
+                "Open Source",
+                "Multi-tool Firmware",
+                "By Quentin D."
+            });
+        })
+    });
 
     mainMenuPage.addIcon(GHZ, &subGhzMenuPage);
     mainMenuPage.addIcon(NFC_RFID, &nfcMenuPage);

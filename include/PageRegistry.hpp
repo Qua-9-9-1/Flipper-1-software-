@@ -3,6 +3,7 @@
 #include "IR/PageIR.hpp"
 #include "PageList.hpp"
 #include "core/PageBoot.hpp"
+#include "core/PageDetails.hpp"
 #include "core/PageError.hpp"
 #include "core/PageMainMenu.hpp"
 #include "managers/StorageManager.hpp"
@@ -13,6 +14,7 @@ namespace PageRegistry {
 extern PageMainMenu mainMenuPage;
 extern PageBoot     bootPage;
 extern PageError    errorPage;
+extern PageDetails  detailsPage;
 
 void setupPages();
 }  // namespace PageRegistry
