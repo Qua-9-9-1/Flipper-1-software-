@@ -16,7 +16,7 @@ PageList        nfcMenuPage("NFC / RFID");
 PageList        nfcCardsPage("Saved NFC Cards");
 PageList        IRPage("IR");
 PageList        irSignalsPage("Saved IR Signals");
-PageIR          IRReceiverPage;
+ReadSignal      IRReceiverPage;
 PageList        badUSBPage("System / BadUSB");
 PageList        settingsPage("Settings");
 PageControlTest controlTestPage;

@@ -1,6 +1,6 @@
 #pragma once
 #include "AppEvents.h"
-#include "IR/PageIR.hpp"
+#include "IR/ReadSignal.hpp"
 #include "PageList.hpp"
 #include "core/PageBoot.hpp"
 #include "core/PageDetails.hpp"
